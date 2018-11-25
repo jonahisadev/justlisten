@@ -4,9 +4,13 @@
 	function prepare_url($str) {
 		$x = str_replace(BASEURL, "", explode("?", $str)[0]);
 		if (substr($x, -1) != "/") {
-			$x = substr($x, 1, strlen($x)-1);
-			header("Location: " . BASEURL  . "/" . $x . "/", TRUE, 301);
-			exit();
+			if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+				$x = substr($x, 1, strlen($x)-1);
+				header("Location: " . BASEURL  . "/" . $x . "/", TRUE, 301);
+				exit();
+			} else {
+				$x .= "/";
+			}
 		}
 		return $x;
 	}

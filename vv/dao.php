@@ -275,6 +275,7 @@ abstract class DAO {
 
 		// Run a PDO
 		$stmt = $_DB->prepare($sql);
+		unset($props['_items']);
 		$stmt->execute($props);
 	}
 
