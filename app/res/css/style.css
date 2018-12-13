@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
+@font-face {
+	font-family: Roboto;
+	src: url("../font/Roboto-Regular.ttf");
+}
 
 body {
 	background-color: #222222;
@@ -128,6 +131,7 @@ h4.link:hover {
 	width: 50%;
 	margin-left: 25%;
 	box-sizing: border-box;
+	border-radius: 0px;
 
 	background-color: #222222;
 	border: none;
@@ -241,14 +245,14 @@ h4.link:hover {
 img.img-upload {
 	border: 5px solid #FFF;
 	box-shadow: 2px 2px 10px #111;
-	margin-bottom: 50px;
+	margin-bottom: 10px;
 }
 
 img.img-upload:hover {
 	cursor: pointer;
 }
 
-input[type="text"] {
+input[type="text"], input[type="date"] {
 	font-size: 16pt;
 	padding: 5px;
 	border: 3px solid #AAA;
@@ -261,7 +265,7 @@ input[type="text"] {
 	transition: border-color .25s;
 }
 
-.new-release-left input[type="text"] {
+.new-release-left input[type="text"], .new-release-left input[type="date"] {
 	width: 100%;
 }
 
@@ -269,9 +273,19 @@ input[type="text"] {
 	width: 69%;
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="date"]:focus {
 	outline: none;
 	border-color: #222;
+}
+
+input[type="date"]:before {
+	content: attr(placeholder) !important;
+	color: #222;
+	margin-right: 0.5em;
+}
+
+input[type="date"]:focus:before, input[type="date"]:valid:before {
+	content: "";
 }
 
 select {
@@ -284,6 +298,7 @@ select {
 
 .new-release-left select {
 	width: 100%;
+	margin-bottom: 10px;
 }
 
 .new-release-right select {
@@ -426,4 +441,30 @@ select:focus {
 	text-align: center;
 	font-size: 16pt;
 	color: #FFF;
+}
+
+.no-releases {
+	width: 50%;
+	margin-left: 25%;
+}
+
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 99;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+	background-color: #FEFEFE;
+	margin: 5% auto;
+	padding: 10px;
+	width: 50%;
+	color: #222;
+	box-sizing: border-box;
 }

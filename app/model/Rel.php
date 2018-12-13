@@ -2,6 +2,9 @@
 
 class Rel extends DAO {
 
+	const PRIV = 1;
+	const PUB = 2;
+
 	public function model() {
 		$this->number("id")->inc()->primary();
 		$this->string("art", 32);
@@ -11,6 +14,7 @@ class Rel extends DAO {
 		$this->string("label", 128);
 		$this->number("release_type");
 		$this->binary("stores");
+		$this->number("privacy");
 	}
 
 	static function type($id) {
@@ -48,8 +52,37 @@ class Rel extends DAO {
 		}
 	}
 
+	static function priv($type) {
+		switch ($type) {
+			case 1:
+				return "Private";
+			case 2:
+				return "Public";
+		}
+	}
+
+	private static function dateCompare(Rel $a, Rel $b) {
+		if ($a->date == $b->date) {
+			return 0;
+		}
+		return ($a->date > $b->date) ? -1 : 1;
+	}
+
 	static function sortByDate($rels) {
-		// TODO: Do this
+		$R = [];
+		for ($i = 0; $i < count($rels); $i++) {
+			$R[] = Rel::get($rels[$i]);
+		}
+		usort($R, "Rel::dateCompare");
+		return $R;
+	}
+
+	public function getDate() {
+		return date("m/d/Y", $this->date);
+	}
+
+	public function getJSDate() {
+		return date("Y-m-d", $this->date);
 	}
 
 	public function setStores(array $stores) {

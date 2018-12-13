@@ -279,6 +279,26 @@ abstract class DAO {
 		$stmt->execute($props);
 	}
 
+	public function delete($var=NULL) {
+		global $_DB;
+		if (!$_DB) {
+			die("DB was not initialized");
+		}
+
+		$sql = "DELETE FROM " . get_called_class() . " WHERE ";
+
+		if ($var == NULL) {
+			$item = DAO::findPrimaryItem($this);
+			$var = $item->name;
+		}
+
+		$sql .= $var . "=:" . $var;
+		$props = [$var => get_object_vars($this)[$var]];
+		// print_r($props);
+		$stmt = $_DB->prepare($sql);
+		$stmt->execute($props);
+	}
+
 	private static function findPrimaryItem($inst) {
 		foreach ($inst->_items as $item) {
 			if ($item->primary) {

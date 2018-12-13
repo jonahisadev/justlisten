@@ -33,7 +33,7 @@
 			</div>
 			<?php } ?>
 		</div>
-		<h4>Ⓟ <?= $R->label ?></h4>
+		<h4>Ⓟ <?= $R->label ?> <?= date("Y", $R->date) ?></h4>
 	</div>
 
 	<div class="bg-img" style="background-image: url('<?= BASEURL ?>/app/res/img/user_upload/<?= $R->art ?>.jpg');"></div>

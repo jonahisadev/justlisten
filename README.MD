@@ -1,3 +1,3 @@
-# Play My Music
+# Just Listen
 
 A website for music artists' discography

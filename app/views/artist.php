@@ -23,8 +23,10 @@
 		<?php } ?>
 		<div class="main-content grid-container">
 			<?php
+				$pub_count = 0;
 				for ($i = 0; $i < count($rels); $i++) {
 					$R = Rel::get($rels[$i]);
+					if ($R->privacy == Rel::PUB) {
 			?>
 			<div class="grid">
 				<div class="grid-release-container">
@@ -38,11 +40,32 @@
 				<h4><?= $R->title ?></h4>
 			</div>
 			<?php
+					$pub_count++;
+					}
+				}
+
+				if (count($rels) == 0 || $pub_count == 0) {
+			?>
+			<h2 class="no-releases"><i>No Releases :(</i></h2>
+			<?php
 				}
 			?>
+
+			<?php if (count($rels) == 0) { ?>
+			
+			<?php 
+	} ?>
+		</div>
+	</div>
+
+	<div class="modal" id="edit-modal">
+		<div class="modal-content center">
+			<h2>Edit Profile</h2>
+			<input type="text" placeholder="Name" value="<?= $A->name ?>" />
 		</div>
 	</div>
 
 	<?= script("artist.js") ?>
+	<?= script("modal.js") ?>
 </body>
 </html>

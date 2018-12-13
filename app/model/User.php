@@ -13,7 +13,11 @@ class User extends DAO {
 	}
 
 	public function setReleases(array $rel) {
-		$this->releases = gzencode(base64_encode(serialize($rel)));
+		if (count($rel) == 0) {
+			$this->releases = NULL;
+		} else {
+			$this->releases = gzencode(base64_encode(serialize($rel)));
+		}
 	}
 
 	public function getReleases() {
@@ -28,6 +32,31 @@ class User extends DAO {
 		$arr = $this->getReleases();
 		$arr[] = $rel;
 		$this->setReleases($arr);
+	}
+
+	public function getRelease($url) {
+		$rels = $this->getReleases();
+		for ($i = 0; $i < count($rels); $i++) {
+			$R = Rel::get($rels[$i]);
+			if ($R->url == $url) {
+				return $R;
+			}
+		}
+		return NULL;
+	}
+
+	public function removeRelease($id, $base) {
+		$rels = $this->getReleases();
+		for ($i = 0; $i < count($rels); $i++) {
+			if ($rels[$i] == $id) {
+				$R = Rel::get($rels[$i]);
+				unlink($base . "/res/img/user_upload/" . $R->art . ".jpg");
+				array_splice($rels, $i, 1);
+				break;
+			}
+		}
+		$this->setReleases($rels);
+		$this->save();
 	}
 
 }

@@ -1,0 +1,1 @@
+<?= "<script>const ROOT = '" . BASEURL . "'</script>" ?>

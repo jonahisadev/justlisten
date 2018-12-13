@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Just Listen</title>
+	<?php include 'include/rest.php'; ?>
 	<?= stylesheet("style.css") ?>
 </head>
 <body>
@@ -26,9 +27,9 @@
 			<?php } else { ?>
 			<?php
 
-				$releases = $user->getReleases();
+				$releases = Rel::sortByDate($user->getReleases());
 				for ($i = 0; $i < count($releases); $i++) {
-					$R = Rel::get($releases[$i]);
+					$R = $releases[$i];
 					include 'template/home_release.php';
 				}
 
@@ -36,6 +37,9 @@
 			<?php } ?>
 		</div>
 	</div>
-		
+	
+	<?= csrf_field() ?>
+	<?= script("rest.js") ?>
+	<?= script("home.js") ?>
 </body>
 </html>
