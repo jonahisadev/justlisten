@@ -19,7 +19,7 @@
 		<h1 class="title"><?= $name ?></h1>
 		<?= image("user_upload/" . $A->profile . ".jpg", ["width" => "200px"]) ?>
 		<?php if ($A->id == Session::get("login_id")) { ?>
-		<h4 class="link" onclick="showEdit()">Edit</h4>
+		<h4 class="link" onclick="window.location.href='edit'">Edit</h4>
 		<?php } ?>
 		<div class="main-content grid-container">
 			<?php
@@ -50,22 +50,13 @@
 			<?php
 				}
 			?>
-
-			<?php if (count($rels) == 0) { ?>
-			
-			<?php 
-	} ?>
 		</div>
 	</div>
 
-	<div class="modal" id="edit-modal">
-		<div class="modal-content center">
-			<h2>Edit Profile</h2>
-			<input type="text" placeholder="Name" value="<?= $A->name ?>" />
-		</div>
-	</div>
-
+	<?php include 'include/rest.php'; ?>
 	<?= script("artist.js") ?>
 	<?= script("modal.js") ?>
+	<?= script("rest.js") ?>
+	<?= script("new_release.js") ?>
 </body>
 </html>

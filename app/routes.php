@@ -258,6 +258,10 @@
 	//
 
 	Route::get("/a/{username}/{url}", function($username, $url) {
+		if ($url == "edit") {
+			return;
+		}
+
 		Session::init();
 		$user = User::getBy("username", $username);
 		if ($user->id == NULL) {
@@ -334,9 +338,63 @@
 		echo('{ "status": "success" }');
 	});
 
-	// Route::get("/test", function() {
-	// 	View::show("test");
-	// });
+	//
+	//	ARTIST EDIT
+	//
+
+	Route::get("/a/{username}/edit", function($username) {
+		Session::init();
+		$user = User::getBy("username", $username);
+		if ($user->id == null) {
+			View::show("error", [
+				"error" => "That user doesn't exist"
+			]);
+			return;
+		}
+
+		if ($user->id != Session::get("login_id")) {
+			View::show("error", [
+				"error" => "You don't have access to this page!"
+			]);
+			return;
+		}
+
+		View::show("artist_edit", [
+			"a_id" => $user->id
+		]);
+	});
+
+	Route::spost("/a/{username}/edit", function($username) {
+		Session::init();
+		$user = User::getBy("username", $username);
+
+		if ($user->id != Session::get("login_id")) {
+			View::show("error", [
+				"error" => "You don't have access to this page!"
+			]);
+			return;
+		}
+
+		// Name
+		$name = $_POST['name'];
+		// TODO: cleanse
+		$user->name = $name;
+
+		// Profile picture
+		if ($_FILES['art']['tmp_name'] != "") {
+			if ($user->profile != "profile") {
+				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $user->profile . ".jpg";
+				unlink($filename);
+			}
+
+			$user->profile = substr(str_shuffle(md5(microtime())), 0, 32);
+			$filename = dirname(__FILE__) . "/res/img/user_upload/" . $user->profile . ".jpg";
+			move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+		}
+
+		$user->save();
+		View::redirect("/a/" . $user->username . "");
+	}, FALSE);
 
 	//
 	// RELEASE API
