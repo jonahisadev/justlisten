@@ -38,6 +38,16 @@ class Rel extends DAO {
 				return "Apple Music";
 			case 3:
 				return "iTunes";
+			case 4:
+				return "Soundcloud";
+			case 5:
+				return "YouTube";
+			case 6:
+				return "Deezer";
+			case 7:
+				return "Amazon";
+			case 8:
+				return "Google Play";
 		}
 	}
 
@@ -48,6 +58,16 @@ class Rel extends DAO {
 			case 2:
 				return "Listen";
 			case 3:
+				return "Buy";
+			case 4:
+				return "Listen";
+			case 5:
+				return "Watch";
+			case 6:
+				return "Listen";
+			case 7:
+				return "Buy";
+			case 8:
 				return "Buy";
 		}
 	}

@@ -32,6 +32,11 @@
 						<option value="1">Spotify</option>
 						<option value="2">Apple Music</option>
 						<option value="3">iTunes</option>
+						<option value="4">Soundcloud</option>
+						<option value="5">YouTube</option>
+						<option value="6">Deezer</option>
+						<option value="7">Amazon</option>
+						<option value="8">Google Play</option>
 					</select>
 					<input type="text" name="store-link-1" id="store-link-1" placeholder="Link" />
 					<h3 class="minus" onclick="removeStoreLink(1)">-</h3>
@@ -45,7 +50,7 @@
 			<?php if ($action == "create") { ?>
 			<input type="submit" class="btn-large" value="Submit" />
 			<?php } else { ?>
-			<input type="submit" class="btn-large" value="Edit" />
+			<input type="submit" class="btn-large" value="Save" />
 			<?php } ?>
 		</div>
 	</div>
