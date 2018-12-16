@@ -1,6 +1,6 @@
 <?php
 	$A = User::get($a_id);
-	$rels = $A->getReleases();
+	$rels = Rel::sortByDate($A->getReleases());
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +25,7 @@
 			<?php
 				$pub_count = 0;
 				for ($i = 0; $i < count($rels); $i++) {
-					$R = Rel::get($rels[$i]);
+					$R = $rels[$i];
 					if ($R->privacy == Rel::PUB) {
 			?>
 			<div class="grid">
@@ -54,7 +54,6 @@
 	</div>
 
 	<?php include 'include/rest.php'; ?>
-	<?= script("artist.js") ?>
 	<?= script("modal.js") ?>
 	<?= script("rest.js") ?>
 	<?= script("new_release.js") ?>

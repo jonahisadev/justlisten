@@ -469,3 +469,13 @@ select:focus {
 	box-sizing: border-box;
 	border-radius: 10px;
 }
+
+#current-store {
+	cursor: pointer;
+
+	transition: color .25s;
+}
+
+#current-store:hover {
+	color: #AAA;
+}

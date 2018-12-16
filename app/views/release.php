@@ -6,6 +6,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<?= script("cookies.js") ?>
+	<?= script("release.js") ?>
+
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -27,7 +30,7 @@
 				<div class="store-container-name">
 					<h2><?= Rel::store($S[0]) ?></h2>
 				</div>
-				<a href="<?= $S[1] ?>"><div class="store-container-link">
+				<a href="<?= $S[1] ?>" onclick="store(<?= $S[0] ?>)"><div class="store-container-link">
 					<h2><?= Rel::action($S[0]) ?></h2>
 				</div></a>
 			</div>
@@ -37,7 +40,5 @@
 	</div>
 
 	<div class="bg-img" style="background-image: url('<?= BASEURL ?>/app/res/img/user_upload/<?= $R->art ?>.jpg');"></div>
-
-	<?= script("release.js") ?>
 </body>
 </html>

@@ -1,13 +1,19 @@
 <?php
 
-	//
-	//	PUT ROUTES IN HERE
-	//
-
 	include 'model/User.php';
 	include 'model/Rel.php';
 
-	// MAIN PAGE
+	//
+	//	LOCAL STORAGE
+	//
+
+	Route::get("/local_store", function() {
+		echo("fart");
+	});
+
+	//
+	//	MAIN PAGE
+	//
 
 	Route::get("/", function() {
 		Session::init();
@@ -254,36 +260,6 @@
 	});
 
 	//
-	//	GET RELEASE
-	//
-
-	Route::get("/a/{username}/{url}", function($username, $url) {
-		if ($url == "edit") {
-			return;
-		}
-
-		Session::init();
-		$user = User::getBy("username", $username);
-		if ($user->id == NULL) {
-			echo("No such username '" . $username . "'");
-			die();
-		}
-
-		$R = $user->getRelease($url);
-		if ($R->id == NULL || ($R->privacy == Rel::PRIV && Session::get("login_id") != $user->id)) {
-			View::show("error", [
-				"error" => "This release doesn't exist"
-			]);
-			return;
-		}
-
-		View::show("release", [
-			"r_id" => $R->id,
-			"a_id" => $user->id
-		]);
-	});
-
-	//
 	//	EDIT RELEASE
 	//
 
@@ -305,6 +281,46 @@
 		$R = $user->getRelease($url);
 
 		View::show("edit_release", [
+			"r_id" => $R->id,
+			"a_id" => $user->id
+		]);
+	});
+
+	//
+	//	GET RELEASE
+	//
+
+	Route::get("/a/{username}/{url}", function ($username, $url) {
+		if ($url == "edit") {
+			return;
+		}
+
+		Session::init();
+		$user = User::getBy("username", $username);
+		if ($user->id == null) {
+			echo ("No such username '" . $username . "'");
+			die();
+		}
+
+		$R = $user->getRelease($url);
+		if ($R->id == null || ($R->privacy == Rel::PRIV && Session::get("login_id") != $user->id)) {
+			View::show("error", [
+				"error" => "This release doesn't exist"
+			]);
+			return;
+		}
+		
+		if (isset($_COOKIE['store']) && $R->privacy == Rel::PUB) {
+			$stores = $R->getStores();
+			for ($i = 0; $i < count($stores); $i++) {
+				if ($stores[$i][0] == $_COOKIE['store']) {
+					View::redirectGlobal($stores[$i][1]);
+					return;
+				}
+			}
+		}
+
+		View::show("release", [
 			"r_id" => $R->id,
 			"a_id" => $user->id
 		]);
@@ -364,6 +380,10 @@
 		]);
 	});
 
+	//
+	//	SAVE ARTIST PROFILE
+	//
+
 	Route::spost("/a/{username}/edit", function($username) {
 		Session::init();
 		$user = User::getBy("username", $username);
@@ -410,6 +430,14 @@
 		View::show("api/release", [
 			"r_id" => $release->id
 		]);
+	});
+
+	//
+	//	HARD RESET STORE
+	//
+
+	Route::get("/reset", function() {
+		View::show("reset_store");
 	});
 
 	//
