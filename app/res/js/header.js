@@ -1,6 +1,7 @@
 function setHeaderStore() {
+	if (!Cookies.get("store")) return;
 	var store = parseInt(Cookies.get("store"));
-	if (store == 0 || store == NaN) {
+	if (store == 0) {
 		removeHeaderStore();
 		return;
 	}
@@ -8,7 +9,7 @@ function setHeaderStore() {
 	removeHeaderStore();
 
 	var title = document.getElementById("jl-title");
-	title.innerHTML += '<span id="divider">: </span><span id="current-store" onclick="headerClick()">';
+	title.innerHTML += '<span id="divider"> - </span><span id="current-store" onclick="headerClick()">';
 	var placeholder = title.childNodes[2];
 
 	switch (store) {

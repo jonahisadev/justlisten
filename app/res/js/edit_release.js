@@ -1,5 +1,9 @@
 function loadRelease(id) {
 	var rel = new Release(id, () => {
+		if (rel.error) {
+			console.log(rel.error);
+		}
+
 		document.getElementById("title").value = rel.title;
 		document.getElementById("url").value = rel.url;
 		document.getElementById("date").value = rel.date;

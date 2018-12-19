@@ -4,14 +4,6 @@
 	include 'model/Rel.php';
 
 	//
-	//	LOCAL STORAGE
-	//
-
-	Route::get("/local_store", function() {
-		echo("fart");
-	});
-
-	//
 	//	MAIN PAGE
 	//
 
@@ -157,6 +149,7 @@
 	Route::get("/logout", function() {
 		Session::init();
 		Session::destroy();
+		setcookie("store", null, -1, '/');	// Delete store cookie
 		View::redirect("/");
 	});
 
@@ -310,10 +303,12 @@
 			return;
 		}
 		
+		// Default platform
 		if (isset($_COOKIE['store']) && $R->privacy == Rel::PUB) {
 			$stores = $R->getStores();
 			for ($i = 0; $i < count($stores); $i++) {
 				if ($stores[$i][0] == $_COOKIE['store']) {
+					$R->logStat($_COOKIE['store']);
 					View::redirectGlobal($stores[$i][1]);
 					return;
 				}
@@ -421,15 +416,40 @@
 	//
 
 	Route::get("/api/release/{id}", function($id) {
+		Session::init();
 		$release = Rel::get($id);
+
 		if ($release->id == NULL) {
 			echo('{ "error": "No such release" }');
 			return;
 		}
 
+		// Hide private releases from API GET
+		if ($release->privacy == Rel::PRIV) {
+			if (Session::has("login_id")) {
+				$user = User::get(Session::get("login_id"));
+				if (!in_array($release->id, $user->getReleases())) {
+					echo ('{ "error": "No such release" }');
+					return;
+				}
+			} else {
+				echo ('{ "error": "No such release" }');
+				return;
+			}
+		}
+
 		View::show("api/release", [
 			"r_id" => $release->id
 		]);
+	});
+
+	//
+	//	LOG STAT
+	//
+
+	Route::post("/stat", function ($release_id, $store_id) {
+		$R = Rel::get($release_id);
+		$R->logStat($store_id);
 	});
 
 	//

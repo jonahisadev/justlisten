@@ -7,7 +7,7 @@
 		<p><?= Rel::type($R->release_type) ?></p>
 		<p><?= $R->getDate() ?></p>
 		<p>Ⓟ <?= $R->label ?></p>
-		<p>0 clicks</p>
+		<p><?= $R->getStats()[Stat::CLICKS] ?> clicks</p>
 	</div>
 	<div class="home-release-col">
 		<a class="btn-large" href="a/<?= $username ?>/<?= $R->url ?>">View</a>

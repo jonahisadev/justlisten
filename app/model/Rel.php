@@ -1,5 +1,7 @@
 <?php
 
+include 'Stat.php';
+
 class Rel extends DAO {
 
 	const PRIV = 1;
@@ -15,6 +17,7 @@ class Rel extends DAO {
 		$this->number("release_type");
 		$this->binary("stores");
 		$this->number("privacy");
+		$this->binary("stats");
 	}
 
 	static function type($id) {
@@ -115,6 +118,81 @@ class Rel extends DAO {
 		}
 
 		return unserialize(base64_decode(gzdecode($this->stores)));
+	}
+
+	public function setStats(array $stats) {
+		$this->stats = gzencode(base64_encode(serialize($stats)));
+	}
+
+	public function getStats() {
+		if ($this->stats == NULL) {
+			$arr = [Stat::STATS_ARRAY_SIZE];
+			for ($i = 0; $i < Stat::STATS_ARRAY_SIZE; $i++) {
+				$arr[$i] = 0;
+			}
+			return $arr;
+		}
+
+		return unserialize(base64_decode(gzdecode($this->stats)));
+	}
+
+	public function logStat($store_id) {
+		if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+			return;
+		}
+
+		$info = get_browser(NULL, TRUE);
+		$B = $info['browser'];
+		$OS = $info['platform'];
+		$P = $info['device_type'];
+
+		$stats = $this->getStats();
+		$stats[Stat::CLICKS]++;
+
+		// BROWSER
+		if ($B == "Chrome") {
+			$stats[Stat::CHROME]++;
+		} else if ($B == "Firefox") {
+			$stats[Stat::FIREFOX]++;
+		} else if ($B == "Opera") {
+			$stats[Stat::OPERA]++;
+		} else if ($B == "Safari") {
+			$stats[Stat::SAFARI]++;
+		} else if ($B == "Edge") {
+			$stats[Stat::EDGE]++;
+		} else {
+			$stats[Stat::OTHER_BROWSER]++;
+		}
+
+		// OS
+		if (substr($OS, 0, 3) == "Win") {
+			$stats[Stat::WINDOWS]++;
+		} else if ($OS == "MacOSX") {
+			$stats[Stat::MAC]++;
+		} else if ($OS == "Linux") {
+			$stats[Stat::LINUX]++;
+		} else if ($OS == "iOS") {
+			$stats[Stat::IOS]++;
+		} else if ($OS == "Android") {
+			$stats[Stat::ANDROID]++;
+		} else {
+			$stats[Stat::OTHER_OS]++;
+		}
+
+		// PLATFORM
+		if ($P == "Desktop") {
+			$stats[Stat::DESKTOP]++;
+		} else if ($P == "Mobile Phone") {
+			$stats[Stat::MOBILE]++;
+		} else {
+			$stats[Stat::OTHER_PLATFORM]++;
+		}
+
+		// STORE
+		$stats[Stat::STORE_START + $store_id]++;
+
+		$this->setStats($stats);
+		$this->save();
 	}
 
 }

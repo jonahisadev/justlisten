@@ -1,12 +1,14 @@
 <?php
 	$R = Rel::get($r_id);
 	$A = User::get($a_id);
+	include 'include/rest.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<?= script("cookies.js") ?>
+	<?= script("rest.js") ?>
 	<?= script("release.js") ?>
 
 	<meta charset="UTF-8">
@@ -30,7 +32,7 @@
 				<div class="store-container-name">
 					<h2><?= Rel::store($S[0]) ?></h2>
 				</div>
-				<a href="<?= $S[1] ?>" onclick="store(<?= $S[0] ?>)"><div class="store-container-link">
+				<a href="<?= $S[1] ?>" onclick="store(<?= $S[0] ?>, <?= $R->id ?>)"><div class="store-container-link">
 					<h2><?= Rel::action($S[0]) ?></h2>
 				</div></a>
 			</div>
