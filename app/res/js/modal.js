@@ -19,3 +19,11 @@ Array.from(document.getElementsByClassName("modal")).forEach((modal) => {
 		}
 	}
 });
+
+window.addEventListener("keydown", (e) => {
+	if (e.key == "Escape") {
+		Array.from(document.getElementsByClassName("modal")).forEach((modal) => {
+			modal.style.display = "none";
+		});
+	}
+});

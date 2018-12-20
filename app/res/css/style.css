@@ -489,6 +489,23 @@ select:focus {
 	border-radius: 10px;
 }
 
+.modal-close {
+	float: right;
+	color: #444;
+	cursor: pointer;
+	margin-top: 0px;
+	margin-bottom: 5px;
+	margin-right: 5px;
+	display: inline-block;
+	font-size: 24pt;
+
+	transition: color .125s;
+}
+
+.modal-close:hover {
+	color: #888;
+}
+
 #current-store {
 	cursor: pointer;
 

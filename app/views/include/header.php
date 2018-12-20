@@ -18,6 +18,7 @@
 <?php if (isset($_COOKIE['store'])) { ?>
 <div class="modal" id="store-modal">
 	<div class="modal-content center">
+		<h2 class="modal-close" onclick="hideModal('store-modal')">×</h2>
 		<h1>Set Default Store</h1>
 		<select id="store-selector" style="width: 50%">
 			<option value="0">Reset</option>
