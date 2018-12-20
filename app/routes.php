@@ -174,6 +174,12 @@
 			View::redirect("/");
 		}
 
+		if ($user->verify != "0") {
+			Session::init();
+			Session::addFlash("bad_verify");
+			View::redirect("/");
+		}
+
 		Session::init([
 			'login_id' => $user->id,
 			'login_user' => $user->username,
@@ -220,16 +226,20 @@
 		// Hash password
 		$password = password_hash($pass1, PASSWORD_ARGON2I);
 
+		// Create verification code
+		$verify = substr(str_shuffle(md5(microtime())), 0, 32);
+
 		// Create User
 		$user = User::new([
 			'username' => $username,
 			'name' => $name,
 			'email' => $email,
-			'password' => $password
+			'password' => $password,
+			'verify' => $verify
 		]);
 
 		Session::remove("flsh_signup");
-		Session::addFlash("success");
+		Session::addFlash("verify");
 		View::redirect("/");
 	});
 
@@ -474,9 +484,27 @@
 	//	LOG STAT
 	//
 
-	Route::post("/api/logstat", function ($release_id, $store_id) {
+	Route::post("/api/logstat", function($release_id, $store_id) {
 		$R = Rel::get($release_id);
 		$R->logStat($store_id);
+	});
+
+	//
+	//	VERIFY ACCOUNT
+	//
+
+	Route::get("/verify_account/{code}", function($code) {
+		$user = User::getBy("verify", $code);
+		if ($user->id == NULL) {
+			View::redirect("/");
+		}
+
+		$user->verify = "0";
+		$user->save();
+
+		Session::init();
+		Session::addFlash("success");
+		View::redirect("/");
 	});
 
 	//

@@ -18,7 +18,7 @@
 	<div class="profile-container">
 		<h1 class="title"><?= $name ?></h1>
 		<?= image("user_upload/" . $A->profile . ".jpg", ["width" => "200px"]) ?>
-		<?php if ($A->id == Session::get("login_id")) { ?>
+		<?php if ($A->id == Session::get("login_id")) { ?><br>
 		<h4 class="link" onclick="window.location.href='edit'">Edit</h4>
 		<?php } ?>
 		<div class="main-content grid-container">

@@ -8,6 +8,7 @@ class User extends DAO {
 		$this->string("email", 64);
 		$this->string("name", 64);
 		$this->string("password", 256);
+		$this->string("verify", 32);
 		$this->binary("releases");
 		$this->string("profile", 32, "profile");
 	}

@@ -104,6 +104,8 @@ h4.link {
 	text-decoration: underline;
 	color: #1185a1;
 	margin-top: 15px;
+	display: inline-block;
+	margin-bottom: 5px;
 }
 
 h4.link:hover {

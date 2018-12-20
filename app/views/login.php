@@ -15,11 +15,15 @@
 
 			if (!Session::hasFlash("signup")) {
 				if (Session::hasFlash("success")) {
-					echo("Success!");
+					echo("Success! You may now log in!");
 				} else if (Session::hasFlash("empty")) {
 					echo("Please enter all fields");
 				} else if (Session::hasFlash("bad")) {
 					echo("Incorrect username or password");
+				} else if (Session::hasFlash("verify")) {
+					echo("Success! Please verify your account!");
+				} else if (Session::hasFlash("bad_verify")) {
+					echo("Please verify your account first!");
 				}
 			}
 
