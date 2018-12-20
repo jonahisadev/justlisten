@@ -32,7 +32,7 @@
 				<div class="store-container-name">
 					<h2><?= Rel::store($S[0]) ?></h2>
 				</div>
-				<a href="<?= $S[1] ?>" onclick="store(<?= $S[0] ?>, <?= $R->id ?>)"><div class="store-container-link">
+				<a onclick="store(<?= $S[0] ?>, <?= $R->id ?>, '<?= $S[1] ?>')"><div class="store-container-link">
 					<h2><?= Rel::action($S[0]) ?></h2>
 				</div></a>
 			</div>

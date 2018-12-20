@@ -19,6 +19,6 @@
 		<a class="btn-large" onclick="deleteRelease('<?= $username ?>/<?= $R->url ?>')">Delete</a>
 	</div>
 	<div class="home-release-col">
-		<a class="btn-large" href="#">Stats</a>
+		<a class="btn-large" href="a/<?= $username ?>/<?= $R->url ?>/stats">Stats</a>
 	</div>
 </div>

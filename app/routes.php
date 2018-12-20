@@ -280,6 +280,33 @@
 	});
 
 	//
+	//	RELEASE STATS
+	//
+
+	Route::get("/a/{username}/{url}/stats", function($username, $url) {
+		Session::init();
+		$user = User::getBy("username", $username);
+		if ($user->id == null) {
+			echo ("No such username '" . $username . "'");
+			die();
+		}
+
+		if ($user->id != Session::get("login_id")) {
+			View::show("error", [
+				"error" => "You don't have access to this page!"
+			]);
+			exit();
+		}
+
+		$R = $user->getRelease($url);
+
+		View::show("release_stats", [
+			"r_id" => $R->id,
+			"a_id" => $user->id
+		]);
+	});
+
+	//
 	//	GET RELEASE
 	//
 
@@ -447,7 +474,7 @@
 	//	LOG STAT
 	//
 
-	Route::post("/stat", function ($release_id, $store_id) {
+	Route::post("/api/logstat", function ($release_id, $store_id) {
 		$R = Rel::get($release_id);
 		$R->logStat($store_id);
 	});

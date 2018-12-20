@@ -229,6 +229,25 @@ h4.link:hover {
 	padding-left: 10px;
 }
 
+.split-left {
+	float: left;
+	width: 50%;
+	min-height: inherit;
+	border-right: 2px #282828 solid;
+	padding-right: 10px;
+	padding-left: 10px;
+	box-sizing: border-box;
+}
+
+.split-right {
+	float: right;
+	width: 50%;
+	min-height: inherit;
+	padding-left: 10px;
+	padding-right: 10px;
+	box-sizing: border-box;
+}
+
 .new-release-submit {
 	margin-top: 10px;
 }
@@ -478,4 +497,26 @@ select:focus {
 
 #current-store:hover {
 	color: #AAA;
+}
+
+.stat-container {
+	text-align: left;
+	width: 50%;
+	margin-left: 25%;
+}
+
+.stat {
+	width: 100%;
+	display: inline-block;
+	margin-top: 5px;
+}
+
+.stat:not(:last-child) {
+	margin-bottom: 0px;
+}
+
+.stat-img {
+	border: 5px solid white;
+	margin-bottom: 10px;
+	box-shadow: 2px 2px 10px #111;
 }
