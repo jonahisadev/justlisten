@@ -17,7 +17,7 @@
 			There's so many different platforms for listeners that it's hard to market to 
 			all of them at once. Just Listen solves this problem. Point your listeners to your
 			Just Listen profile, where you can put your entire discography, and never have a 
-			listener looking around for your music again.
+			listener looking around for your music again!
 		</p>
 
 		<p style="margin-left: 20%; font-size: 14pt; width: 60%;">

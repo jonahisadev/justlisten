@@ -49,6 +49,8 @@
 					echo("Email is already taken");
 				} else if (Session::hasFlash("username")) {
 					echo("Username is already taken");
+				} else if (Session::hasFlash("nobeta")) {
+					echo("Invalid beta code");
 				}
 			}
 
@@ -60,6 +62,7 @@
 			<input type="text" id="email" name="email" placeholder="Email" />
 			<input type="password" id="pass1" name="pass1" placeholder="Password" />
 			<input type="password" id="pass2" name="pass2" placeholder="Confirm Password" />
+			<input type="text" name="beta_code" id="beta_code" placeholder="Beta Code" />
 			<input type="submit" value="Sign Up">
 		</form>
 		<h4 class="link" onclick="swapForms()">Already a member?</h4>

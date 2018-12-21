@@ -2,6 +2,7 @@
 
 	include 'model/User.php';
 	include 'model/Rel.php';
+	include 'model/Beta.php';
 
 	//
 	//	MAIN PAGE
@@ -193,12 +194,13 @@
 	//	SIGN UP
 	//
 
-	Route::post("/signup", function($username, $name, $email, $pass1, $pass2) {
+	Route::post("/signup", function($username, $name, $email, $pass1, $pass2, $beta_code) {
 		Session::init();
 		Session::addFlash("signup");
 
 		// Check for empty fields
-		if (empty($username) || empty($name) || empty($email) || empty($pass1) || empty($pass2)) {
+		if (empty($username) || empty($name) || empty($email) || empty($pass1) || empty($pass2) ||
+				empty($beta_code)) {
 			Session::addFlash("empty");
 			View::redirect("/");
 		}
@@ -222,6 +224,14 @@
 			Session::addFlash("passmatch");
 			View::redirect("/");
 		}
+
+		// Check for a beta code
+		$beta = Beta::get($beta_code);
+		if ($beta->code == NULL) {
+			Session::addFlash("nobeta");
+			View::redirect("/");
+		}
+		$beta->delete();
 
 		// Hash password
 		$password = password_hash($pass1, PASSWORD_ARGON2I);
