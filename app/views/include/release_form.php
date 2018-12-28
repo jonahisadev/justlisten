@@ -7,21 +7,21 @@
 					<input type="file" name="art" id="art" hidden>
 				</div>
 
-				<input type="text" id="title" name="title" placeholder="Title" />
-				<input type="text" id="url" name="url" placeholder="URL" />
-				<input type="date" id="date" name="date" placeholder="Release Date" />
-				<input type="text" id="label" name="label" placeholder="Label" />
+				<input type="text" id="title" name="title" placeholder="Title" value="<?=$title?>" required/>
+				<input type="text" id="url" name="url" placeholder="URL" value="<?=$url?>" required/>
+				<input type="date" id="date" name="date" placeholder="Release Date" value="<?=$date?>" required/>
+				<input type="text" id="label" name="label" placeholder="Label" value="<?=$label?>" required/>
 				<select name="type" id="type">
-					<option value="0">Release Type</option>
-					<option value="1">Single</option>
-					<option value="2">EP</option>
-					<option value="3">Album</option>
-					<option value="4">Compilation</option>
+					<option value="0" <?php if ($type == 0) { ?> selected <?php } ?>>Release Type</option>
+					<option value="1" <?php if ($type == 1) { ?> selected <?php } ?>>Single</option>
+					<option value="2" <?php if ($type == 2) { ?> selected <?php } ?>>EP</option>
+					<option value="3" <?php if ($type == 3) { ?> selected <?php } ?>>Album</option>
+					<option value="4" <?php if ($type == 4) { ?> selected <?php } ?>>Compilation</option>
 				</select>
 				<select name="privacy" id="privacy">
-					<option value="0">Privacy</option>
-					<option value="1">Private</option>
-					<option value="2">Public</option>
+					<option value="0" <?php if ($privacy == 0) { ?> selected <?php } ?>>Privacy</option>
+					<option value="1" <?php if ($privacy == 1) { ?> selected <?php } ?>>Private</option>
+					<option value="2" <?php if ($privacy == 2) { ?> selected <?php } ?>>Public</option>
 				</select>
 			</div>
 
@@ -31,7 +31,7 @@
 						<option value="0">Store</option>
 						<?php include 'stores.php' ?>
 					</select>
-					<input type="text" name="store-link-1" id="store-link-1" placeholder="Link" />
+					<input type="text" name="store-link-1" id="store-link-1" placeholder="Link" required/>
 					<h3 class="minus" onclick="removeStoreLink(1)">-</h3>
 				</div>
 				<h3 class="plus" id="plus" onclick="addStoreLink()">+</h3>

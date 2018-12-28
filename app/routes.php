@@ -27,6 +27,22 @@
 
 	Route::get("/new", function() {
 		Session::init();
+
+		if (Session::hasFlash("error")) {
+			View::show("new_release", [
+				"name" => Session::get("login_name"),
+				"user" => Session::get("login_user"),
+				"error" => Session::getFlash("error"),
+				"title" => Session::getFlash("title"),
+				"url" => Session::getFlash("url"),
+				"date" => Session::getFlash("date"),
+				"label" => Session::getFlash("label"),
+				"type" => Session::getFlash("type"),
+				"privacy" => Session::getFlash("privacy")
+			]);
+			return;
+		}
+
 		View::show("new_release", [
 			"name" => Session::get("login_name"),
 			"user" => Session::get("login_user")
@@ -36,11 +52,6 @@
 	Route::spost("/new/create", function() {
 		Session::init();
 
-		// Save art
-		$art = substr(str_shuffle(md5(microtime())), 0, 32);
-		$filename = dirname(__FILE__) . "/res/img/user_upload/" . $art . ".jpg";
-		// TODO: Do some checks
-
 		// Get some variables
 		$title = $_POST['title'];
 		$url = $_POST['url'];
@@ -48,13 +59,57 @@
 		$label = $_POST['label'];
 		$type = $_POST['type'];
 		$privacy = $_POST['privacy'];
-		// TODO: Make sure these aren't empty
+
+		// Verify these aren't empty
+		if (empty($title) || empty($url) || empty($date) || empty($label) || $type == 0 || $privacy == 0) {
+			$error = "Please fill out all fields!";
+		}
 
 		// Parse stores
 		$store_count = $_POST['store-count'];
 		$stores = [];
 		for ($i = 1; $i <= $store_count; $i++) {
 			$stores[] = [$_POST['store-type-'.$i], $_POST['store-link-'.$i]];
+			
+			// Verify store information
+			if ($stores[$i-1][0] == 0) {
+				$error = "Please select a store for every link";
+			}
+
+			if (empty($stores[$i-1][1])) {
+				$error = "Please enter a link for every store";
+			}
+		}
+
+		// Check error
+		if ($error) {
+			Session::addFlash("error", $error);
+			Session::addFlash("title", $title);
+			Session::addFlash("url", $url);
+			Session::addFlash("date", $date);
+			Session::addFlash("label", $label);
+			Session::addFlash("type", $type);
+			Session::addFlash("privacy", $privacy);
+			Session::addFlash("stores", $stores);
+			View::redirect("/new");
+		}
+
+		// Check if album art was uploaded
+		if (!empty($_FILES['art']['tmp_name'])) {
+			// Save art
+			$art = substr(str_shuffle(md5(microtime())), 0, 32);
+			$filename = dirname(__FILE__) . "/res/img/user_upload/" . $art . ".jpg";
+			$temp_R = Rel::getBy("art", $art);
+
+			// It shouldn't get two in a row
+			if ($temp_R->$id != NULL) {
+				$art = substr(str_shuffle(md5(microtime())), 0, 32);
+				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $art . ".jpg";
+			}
+
+			move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+		} else {
+			$art = "../default";
 		}
 
 		// Create the release
@@ -74,8 +129,6 @@
 		$user = User::get(Session::get("login_id"));
 		$user->addRelease($release->id);
 		$user->save();
-
-		move_uploaded_file($_FILES['art']['tmp_name'], $filename);
 
 		View::redirect("/");
 	}, FALSE);
@@ -106,31 +159,64 @@
 			return;
 		}
 
-		// Upload art
-		if ($_FILES['art']['tmp_name'] != "") {
-			$filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
-			unlink($filename);
-
-			$R->art = substr(str_shuffle(md5(microtime())), 0, 32);
-			$filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
-			move_uploaded_file($_FILES['art']['tmp_name'], $filename);
-		}
-
+		// Basic variables
 		$title = $_POST['title'];
 		$url = $_POST['url'];
 		$date = $_POST['date'];
 		$label = $_POST['label'];
 		$type = $_POST['type'];
 		$privacy = $_POST['privacy'];
-		// TODO: Make sure these aren't empty
+		
+		// Verify these aren't empty
+		if (empty($title) || empty($url) || empty($date) || empty($label) || $type == 0 || $privacy == 0) {
+			$error = "Please fill out all fields!";
+		}
 
 		// Parse stores
 		$store_count = $_POST['store-count'];
 		$stores = [];
 		for ($i = 1; $i <= $store_count; $i++) {
 			$stores[] = [$_POST['store-type-' . $i], $_POST['store-link-' . $i]];
+				
+			// Verify store information
+			if ($stores[$i - 1][0] == 0) {
+				$error = "Please select a store for every link";
+			}
+
+			if (empty($stores[$i - 1][1])) {
+				$error = "Please enter a link for every store";
+			}
 		}
 
+		// If there's an error, save fields and go back
+		if ($error) {
+			Session::addFlash("error", $error);
+			Session::addFlash("title", $title);
+			Session::addFlash("url", $url);
+			Session::addFlash("date", $date);
+			Session::addFlash("label", $label);
+			Session::addFlash("type", $type);
+			Session::addFlash("privacy", $privacy);
+			Session::addFlash("stores", $stores);
+			View::redirect("/a/" . $username . "/" . $url . "/edit");
+		}
+
+		// Upload art
+		if (!empty($_FILES['art']['tmp_name'])) {
+			$filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
+			unlink($filename);
+
+			$R->art = substr(str_shuffle(md5(microtime())), 0, 32);
+			$temp_R = Rel::getBy("art", $R->art);
+			if ($temp_R->$id != NULL) {
+				$R->art = substr(str_shuffle(md5(microtime())), 0, 32);
+			}
+
+			$filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
+			move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+		}
+
+		// Save data
 		$R->title = $title;
 		$R->url = $url;
 		$R->date = strtotime($date);
@@ -293,6 +379,23 @@
 
 		$R = $user->getRelease($url);
 
+		if (Session::hasFlash("error")) {
+			View::show("edit_release", [
+				"name" => Session::get("login_name"),
+				"user" => Session::get("login_user"),
+				"error" => Session::getFlash("error"),
+				"title" => Session::getFlash("title"),
+				"url" => Session::getFlash("url"),
+				"date" => Session::getFlash("date"),
+				"label" => Session::getFlash("label"),
+				"type" => Session::getFlash("type"),
+				"privacy" => Session::getFlash("privacy"),
+				"r_id" => $R->id,
+				"a_id" => $user->id
+			]);
+			return;
+		}
+
 		View::show("edit_release", [
 			"r_id" => $R->id,
 			"a_id" => $user->id
@@ -439,11 +542,13 @@
 
 		// Name
 		$name = $_POST['name'];
-		// TODO: cleanse
-		$user->name = $name;
+		if (empty($name)) {
+			Session::addFlash("error", "Please fill out all fields");
+			View::redirect("/a/" . $username . "/edit");
+		}
 
 		// Profile picture
-		if ($_FILES['art']['tmp_name'] != "") {
+		if (!empty($_FILES['art']['tmp_name'])) {
 			if ($user->profile != "profile") {
 				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $user->profile . ".jpg";
 				unlink($filename);
@@ -454,6 +559,7 @@
 			move_uploaded_file($_FILES['art']['tmp_name'], $filename);
 		}
 
+		$user->name = $name;
 		$user->save();
 		View::redirect("/a/" . $user->username . "");
 	}, FALSE);

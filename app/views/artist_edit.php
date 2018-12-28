@@ -12,8 +12,14 @@
 </head>
 <body>
 	<?php include 'include/header.php'; ?>
+	<?php include 'template/flash_msg.php'; ?>
 
 	<div class="center">
+		<?php
+			if (Session::hasFlash("error")) {
+				flash_message(FLASH_RED, Session::getFlash("error"));
+			}
+		?>
 		<h1>Edit Profile</h1>
 		<form action="" method="POST" enctype="multipart/form-data" autocomplete="off">
 			<input type="text" name="name" id="name" placeholder="Name" value="<?= $A->name ?>" /><br><br>

@@ -539,3 +539,30 @@ select:focus {
 	margin-bottom: 10px;
 	box-shadow: 2px 2px 10px #111;
 }
+
+.flash-msg {
+	padding: 7px;
+	color: #222;
+}
+
+.flash-msg h2 {
+	margin: 0px;
+}
+
+.flash-msg.green {
+	background-color: #8FDBA3;
+}
+
+.flash-msg.red {
+	background-color: #E07B7B;
+}
+
+.flash-x {
+	float: left;
+	cursor: pointer;
+	transition: color .125s;
+}
+
+.flash-x:hover {
+	color: #444;
+}

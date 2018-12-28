@@ -64,12 +64,45 @@ function removeStoreLink(id) {
 	// TODO: Shift everything below it
 }
 
+function cleanseURL(url) {
+	var str = "";
+	for (var i = 0; i < url.length; i++) {
+		var c = url.charAt(i);
+		if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-') {
+			str += c;
+		}
+	}
+	return str;
+}
+
+function addStores(stores) {
+	for (var i = 0; i < stores.length; i++) {
+		if (i >= 1) addStoreLink();
+
+		document.getElementById("store-type-" + (i + 1)).selectedIndex = stores[i].name;
+		document.getElementById("store-link-" + (i + 1)).value = stores[i].link;
+	}
+}
+
+function backendPersistStores(stores, id) {
+	addStores(JSON.parse(stores).stores);
+	var script = document.getElementById("backendPersist");
+	script.parentElement.removeChild(script);
+
+	if (id >= 0) {
+		var rel = new Release(id, () => {
+			document.getElementById("art-img").src = ROOT + "/app/res/img/user_upload/" + rel.art + ".jpg";
+		});
+	}
+}
+
 selector.addEventListener("change", handleFile, false);
 
 title.addEventListener("keyup", (e) => {
 	var mod = title.value;
 
 	mod = mod.split(' ').join('-');
+	mod = cleanseURL(mod);
 	mod = mod.toLowerCase();
 
 	url.value = mod;

@@ -12,11 +12,6 @@ function loadRelease(id) {
 		document.getElementById("privacy").selectedIndex = rel.privacy;
 		document.getElementById("art-img").src = ROOT + "/app/res/img/user_upload/" + rel.art + ".jpg";
 
-		for (var i = 0; i < rel.stores.length; i++) {
-			if (i >= 1) addStoreLink();
-
-			document.getElementById("store-type-" + (i+1)).selectedIndex = rel.stores[i].name;
-			document.getElementById("store-link-" + (i+1)).value = rel.stores[i].link;
-		}
+		addStores(rel.stores);
 	});
 }

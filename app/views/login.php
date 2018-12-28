@@ -8,26 +8,40 @@
 	<?= stylesheet("style.css") ?>
 </head>
 <body>
-	<?php include 'include/header.php' ?>
+	<?php include 'include/header.php'; ?>
+	<?php include 'template/flash_msg.php'; ?>
+
+	<?php
+
+		if (!Session::hasFlash("signup")) {
+			if (Session::hasFlash("success")) {
+				flash_message(FLASH_GREEN, "Success! You may now log in!");
+			} else if (Session::hasFlash("empty")) {
+				flash_message(FLASH_RED, "Please enter all fields");
+			} else if (Session::hasFlash("bad")) {
+				flash_message(FLASH_RED, "Incorrect username or password");
+			} else if (Session::hasFlash("verify")) {
+				flash_message(FLASH_GREEN, "Success! Please verify your account!");
+			} else if (Session::hasFlash("bad_verify")) {
+				flash_message(FLASH_RED, "Please verify your account first!");
+			}
+		} else {
+			if (Session::hasFlash("empty")) {
+				flash_message(FLASH_RED, "Please enter all fields");
+			} else if (Session::hasFlash("passmatch")) {
+				flash_message(FLASH_RED, "Passwords didn't match");
+			} else if (Session::hasFlash("email")) {
+				flash_message(FLASH_RED, "Email is already taken");
+			} else if (Session::hasFlash("username")) {
+				flash_message(FLASH_RED, "Username is already taken");
+			} else if (Session::hasFlash("nobeta")) {
+				flash_message(FLASH_RED, "Invalid beta code");
+			}
+		}
+
+	?>
 
 	<div class="login-form" id="login">
-		<?php
-
-			if (!Session::hasFlash("signup")) {
-				if (Session::hasFlash("success")) {
-					echo("Success! You may now log in!");
-				} else if (Session::hasFlash("empty")) {
-					echo("Please enter all fields");
-				} else if (Session::hasFlash("bad")) {
-					echo("Incorrect username or password");
-				} else if (Session::hasFlash("verify")) {
-					echo("Success! Please verify your account!");
-				} else if (Session::hasFlash("bad_verify")) {
-					echo("Please verify your account first!");
-				}
-			}
-
-		?>
 		<h1>Login</h1>
 		<form action="login/" method="POST" autocomplete="off">
 			<input type="text" id="username" name="username" placeholder="Username" />
@@ -38,23 +52,6 @@
 	</div>
 
 	<div class="login-form" id="signup">
-		<?php 
-
-			if (Session::hasFlash("signup")) {
-				if (Session::hasFlash("empty")) {
-					echo("Empty fields!");
-				} else if (Session::hasFlash("passmatch")) {
-					echo("Passwords didn't match");
-				} else if (Session::hasFlash("email")) {
-					echo("Email is already taken");
-				} else if (Session::hasFlash("username")) {
-					echo("Username is already taken");
-				} else if (Session::hasFlash("nobeta")) {
-					echo("Invalid beta code");
-				}
-			}
-
-		?>
 		<h1>Sign Up</h1>
 		<form action="signup/" method="POST" autocomplete="off">
 			<input type="text" id="username" name="username" placeholder="Username" />
@@ -75,5 +72,13 @@
 	<?= script("classifier.js") ?>
 	<?= script("input.js") ?>
 	<?= script("login.js") ?>
+
+	<?php
+		if (Session::hasFlash("signup")) {
+	?>
+		<script>swapForms()</script>
+	<?php
+		}
+	?>
 </body>
 </html>
