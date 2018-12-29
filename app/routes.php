@@ -3,6 +3,7 @@
 	include 'model/User.php';
 	include 'model/Rel.php';
 	include 'model/Beta.php';
+	include 'model/Art.php';
 
 	//
 	//	MAIN PAGE
@@ -76,19 +77,6 @@
 			}
 		}
 
-		// Check error
-		if ($error) {
-			Session::addFlash("error", $error);
-			Session::addFlash("title", $title);
-			Session::addFlash("url", $url);
-			Session::addFlash("date", $date);
-			Session::addFlash("label", $label);
-			Session::addFlash("type", $type);
-			Session::addFlash("privacy", $privacy);
-			Session::addFlash("stores", $stores);
-			View::redirect("/new");
-		}
-
 		// Check if album art was uploaded
 		if (!empty($_FILES['art']['tmp_name'])) {
 			// Save art
@@ -102,9 +90,28 @@
 				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $art . ".jpg";
 			}
 
-			move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+			// Check art
+			$art_check = Art::meetsRequirements($_FILES['art']);
+			if (empty($art_check)) {
+				move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+			} else {
+				$error = $art_check;
+			}
 		} else {
 			$art = "../default";
+		}
+
+		// Check error
+		if ($error) {
+			Session::addFlash("error", $error);
+			Session::addFlash("title", $title);
+			Session::addFlash("url", $url);
+			Session::addFlash("date", $date);
+			Session::addFlash("label", $label);
+			Session::addFlash("type", $type);
+			Session::addFlash("privacy", $privacy);
+			Session::addFlash("stores", $stores);
+			View::redirect("/new");
 		}
 
 		// Create the release
@@ -179,6 +186,27 @@
 			}
 		}
 
+		// Upload art
+		if (!empty($_FILES['art']['tmp_name'])) {
+			// Check art
+			$art_check = Art::meetsRequirements($_FILES['art']);
+			if (empty($art_check)) {
+				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
+				unlink($filename);
+
+				$R->art = substr(str_shuffle(md5(microtime())), 0, 32);
+				$temp_R = Rel::getBy("art", $R->art);
+				if ($temp_R->$id != null) {
+					$R->art = substr(str_shuffle(md5(microtime())), 0, 32);
+				}
+
+				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
+				move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+			} else {
+				$error = $art_check;
+			}
+		}
+
 		// If there's an error, save fields and go back
 		if ($error) {
 			Session::addFlash("error", $error);
@@ -190,21 +218,6 @@
 			Session::addFlash("privacy", $privacy);
 			Session::addFlash("stores", $stores);
 			View::redirect("/a/" . $username . "/" . $url . "/edit");
-		}
-
-		// Upload art
-		if (!empty($_FILES['art']['tmp_name'])) {
-			$filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
-			unlink($filename);
-
-			$R->art = substr(str_shuffle(md5(microtime())), 0, 32);
-			$temp_R = Rel::getBy("art", $R->art);
-			if ($temp_R->$id != NULL) {
-				$R->art = substr(str_shuffle(md5(microtime())), 0, 32);
-			}
-
-			$filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
-			move_uploaded_file($_FILES['art']['tmp_name'], $filename);
 		}
 
 		// Save data
@@ -541,14 +554,20 @@
 
 		// Profile picture
 		if (!empty($_FILES['art']['tmp_name'])) {
-			if ($user->profile != "profile") {
-				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $user->profile . ".jpg";
-				unlink($filename);
-			}
+			$img_check = Art::meetsRequirements($_FILES['art']);
+			if (empty($img_check)) {
+				if ($user->profile != "profile") {
+					$filename = dirname(__FILE__) . "/res/img/user_upload/" . $user->profile . ".jpg";
+					unlink($filename);
+				}
 
-			$user->profile = substr(str_shuffle(md5(microtime())), 0, 32);
-			$filename = dirname(__FILE__) . "/res/img/user_upload/" . $user->profile . ".jpg";
-			move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+				$user->profile = substr(str_shuffle(md5(microtime())), 0, 32);
+				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $user->profile . ".jpg";
+				move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+			} else {
+				Session::addFlash("error", $img_check);
+				View::redirect("/a/" . $username . "/edit");
+			}
 		}
 
 		$user->name = $name;

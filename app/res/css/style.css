@@ -492,7 +492,7 @@ select:focus {
 }
 
 .modal-close {
-	float: right;
+	float: left;
 	color: #444;
 	cursor: pointer;
 	margin-top: 0px;

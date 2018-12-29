@@ -23,13 +23,29 @@
 		<h1>Edit Profile</h1>
 		<form action="" method="POST" enctype="multipart/form-data" autocomplete="off">
 			<input type="text" name="name" id="name" placeholder="Name" value="<?= $A->name ?>" /><br><br>
+			<h4 class="link" onclick="showModal('art-modal')">Art Requirements</h4><br>
 			<?= image("user_upload/" . $A->profile . ".jpg", ["id" => "art-img", "width" => "200", "class" => "img-upload", "onclick" => "selectFile()"]) ?>
-			<input type="file" name="art" id="art" hidden><br><br>
+			<input type="file" name="art" id="art" accept="image/jpeg" hidden><br><br>
 			<?= csrf_field() ?>
 			<input class="btn-large" type="submit" value="Edit" />
 		</form>
 	</div>
 
+	<div class="modal" id="art-modal">
+		<div class="modal-content center">
+			<h2 class="modal-close" onclick="hideModal('art-modal')">×</h2>
+			<h1>Art Requirements</h1>
+			<div style="text-align: left; width: 50%; margin-left: 25%;">
+				<ul>
+					<h2><li>Must be a square image</li></h2>
+					<h2><li>File size must less than 2MB</li></h2>
+					<h2><li>Image type must be JPEG (jpg, jpeg)</li></h2>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<?= script("modal.js") ?>
 	<?= script("new_release.js") ?>
 </body>
 </html>

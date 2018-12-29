@@ -10,12 +10,30 @@ function selectFile() {
 	selector.click();
 }
 
+function resetImage(temp) {
+	image.src = temp;
+	selector.value = "";
+}
+
 function handleFile() {
 	var file = this.files[0];
 	var reader = new FileReader();
 
 	reader.addEventListener("load", () => {
+		var temp = image.src;
 		image.src = reader.result;
+
+		setTimeout(() => {
+			if (image.width != image.height) {
+				resetImage(temp);
+				window.alert("Please use a square image");
+			}
+
+			else if (selector.size > 2 * 1024 * 1024) {
+				resetImage(temp);
+				window.alert("Max image size is 2MB - " + (selector.size / (1024 * 1024)).toFixed(2) + "MB");
+			}
+		}, 100);
 	}, false);
 
 	if (file)

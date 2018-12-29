@@ -3,8 +3,9 @@
 		<div class="split-container">
 			<div class="new-release-left">
 				<div class="center">
+					<h4 class="link" style="margin-top: 0px; margin-bottom: 5px;" onclick="showModal('art-modal')">Art Requirements</h4><br>
 					<?= image("default.jpg", ["id" => "art-img", "width" => "200", "class" => "img-upload", "onclick" => "selectFile()"]) ?>
-					<input type="file" name="art" id="art" hidden>
+					<input type="file" name="art" id="art" accept="image/jpeg" hidden>
 				</div>
 
 				<input type="text" id="title" name="title" placeholder="Title" value="<?=$title?>" required/>
@@ -48,3 +49,17 @@
 		</div>
 	</div>
 </form>
+
+<div class="modal" id="art-modal">
+	<div class="modal-content center">
+		<h2 class="modal-close" onclick="hideModal('art-modal')">×</h2>
+		<h1>Art Requirements</h1>
+		<div style="text-align: left; width: 50%; margin-left: 25%;">
+			<ul>
+				<h2><li>Must be a square image</li></h2>
+				<h2><li>File size must less than 2MB</li></h2>
+				<h2><li>Image type must be JPEG (jpg, jpeg)</li></h2>
+			</ul>
+		</div>
+	</div>
+</div>
