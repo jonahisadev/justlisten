@@ -51,7 +51,9 @@ class User extends DAO {
 		for ($i = 0; $i < count($rels); $i++) {
 			if ($rels[$i] == $id) {
 				$R = Rel::get($rels[$i]);
-				unlink($base . "/res/img/user_upload/" . $R->art . ".jpg");
+				if ($R->art != "../default") {
+					unlink($base . "/res/img/user_upload/" . $R->art . ".jpg");
+				}
 				array_splice($rels, $i, 1);
 				break;
 			}

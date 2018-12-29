@@ -52,6 +52,7 @@
 
 	Route::spost("/new/create", function() {
 		Session::init();
+		$user = User::get(Session::get("login_id"));
 
 		// Get some variables
 		$title = $_POST['title'];
@@ -64,6 +65,12 @@
 		// Verify these aren't empty
 		if (empty($title) || empty($url) || empty($date) || empty($label) || $type == 0 || $privacy == 0) {
 			$error = "Please fill out all fields!";
+		}
+
+		// Make sure URL doesn't already exist
+		$temp_r = $user->getRelease($url);
+		if ($temp_r->id != NULL) {
+			$error = "You already have a release with that URL";
 		}
 
 		// Parse stores
@@ -128,7 +135,6 @@
 		$release->save();
 
 		// Add release to user's release list
-		$user = User::get(Session::get("login_id"));
 		$user->addRelease($release->id);
 		$user->save();
 
