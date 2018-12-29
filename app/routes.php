@@ -70,14 +70,9 @@
 		$stores = [];
 		for ($i = 1; $i <= $store_count; $i++) {
 			$stores[] = [$_POST['store-type-'.$i], $_POST['store-link-'.$i]];
-			
-			// Verify store information
-			if ($stores[$i-1][0] == 0) {
-				$error = "Please select a store for every link";
-			}
 
-			if (empty($stores[$i-1][1])) {
-				$error = "Please enter a link for every store";
+			if (!Store::validURL($stores[$i-1][0], $stores[$i-1][1])) {
+				$error = "Please enter a valid store URL";
 			}
 		}
 
@@ -130,6 +125,7 @@
 		$user->addRelease($release->id);
 		$user->save();
 
+		Session::addFlash("success_msg", "Release created!");
 		View::redirect("/");
 	}, FALSE);
 
@@ -177,14 +173,9 @@
 		$stores = [];
 		for ($i = 1; $i <= $store_count; $i++) {
 			$stores[] = [$_POST['store-type-' . $i], $_POST['store-link-' . $i]];
-				
-			// Verify store information
-			if ($stores[$i - 1][0] == 0) {
-				$error = "Please select a store for every link";
-			}
 
-			if (empty($stores[$i - 1][1])) {
-				$error = "Please enter a link for every store";
+			if (!Store::validURL($stores[$i - 1][0], $stores[$i - 1][1])) {
+				$error = "Please enter a valid store URL";
 			}
 		}
 
@@ -226,6 +217,7 @@
 		$R->setStores($stores);
 		$R->save();
 
+		Session::addFlash("success_msg", "Release saved!");
 		View::redirect("/");
 	}, FALSE);
 
@@ -594,6 +586,14 @@
 		View::show("api/release", [
 			"r_id" => $release->id
 		]);
+	});
+
+	//
+	//	REST STORE VALIDATION
+	//
+
+	Route::post("/api/validate_store", function($type, $url) {
+		echo(Store::validURL($type, $url));
 	});
 
 	//

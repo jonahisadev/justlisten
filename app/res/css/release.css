@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
+@font-face {
+	font-family: Roboto;
+	src: url("../font/Roboto-Regular.ttf");
+}
 
 body {
 	background-color: #222222;

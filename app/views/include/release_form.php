@@ -27,11 +27,11 @@
 
 			<div class="new-release-right">
 				<div class="store" id="store-1">
-					<select name="store-type-1" id="store-type-1">
+					<select class="store-type" name="store-type-1" id="store-type-1">
 						<option value="0">Store</option>
 						<?php include 'stores.php' ?>
 					</select>
-					<input type="text" name="store-link-1" id="store-link-1" placeholder="Link" required/>
+					<input class="store-link" type="text" name="store-link-1" id="store-link-1" placeholder="Link" required/>
 					<h3 class="minus" onclick="removeStoreLink(1)">-</h3>
 				</div>
 				<h3 class="plus" id="plus" onclick="addStoreLink()">+</h3>

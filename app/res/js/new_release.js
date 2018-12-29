@@ -42,7 +42,11 @@ function addStoreLink() {
 	counter.value = parseInt(stores);
 
 	plus.parentNode.insertBefore(currentStore, plus);
-	document.getElementById("store-link-" + stores).value = "";
+	var link = document.getElementById("store-link-" + stores);
+	link.value = "";
+	removeClass(link, "valid");
+	removeClass(link, "invalid");
+	setupValidation(link);
 }
 
 function removeStoreLink(id) {
@@ -86,6 +90,10 @@ function addStores(stores) {
 
 function backendPersistStores(stores, id) {
 	addStores(JSON.parse(stores).stores);
+	Array.from(document.getElementsByClassName("store-link")).forEach((link) => {
+		var parent = link.parentElement;
+		validateURL(link, parent.children[0].selectedIndex, parent.children[1].value);
+	});
 	var script = document.getElementById("backendPersist");
 	script.parentElement.removeChild(script);
 
@@ -95,6 +103,35 @@ function backendPersistStores(stores, id) {
 		});
 	}
 }
+
+function validateURL(link, type, url) {
+	POST("/api/validate_store", {
+		"type": type,
+		"url": url 
+	}, (data) => {
+		if (data == 0) {
+			addClass(link, "invalid")
+			removeClass(link, "valid");
+		} else {
+			addClass(link, "valid");
+			removeClass(link, "invalid");
+		}
+	});
+}
+
+function setupValidation(link) {
+	var parent = link.parentElement;
+	link.onblur = () => {
+		validateURL(link, parent.children[0].selectedIndex, parent.children[1].value);
+	};
+	parent.children[0].onchange = () => {
+		validateURL(link, parent.children[0].selectedIndex, parent.children[1].value);
+	};
+}
+
+Array.from(document.getElementsByClassName("store-link")).forEach((link) => {
+	setupValidation(link);
+});
 
 selector.addEventListener("change", handleFile, false);
 

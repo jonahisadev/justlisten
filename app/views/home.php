@@ -9,10 +9,16 @@
 	<?= stylesheet("style.css") ?>
 </head>
 <body>
-	<?php include 'include/header.php' ?>
+	<?php include 'include/header.php'; ?>
+	<?php include 'template/flash_msg.php'; ?>
 	<?php $user = User::get(Session::get("login_id")); ?>
 
 	<div class="welcome center">
+		<?php
+			if (Session::hasFlash("success_msg")) {
+				flash_message(FLASH_GREEN, Session::getFlash("success_msg"));
+			}
+		?>
 		<h1>Welcome <?= $name ?>!</h1>
 	</div>
 

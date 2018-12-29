@@ -1,6 +1,7 @@
 <?php
 
 include 'Stat.php';
+include 'Store.php';
 
 class Rel extends DAO {
 
@@ -35,42 +36,42 @@ class Rel extends DAO {
 
 	static function store($id) {
 		switch ($id) {
-			case 1:
+			case Store::SPOTIFY:
 				return "Spotify";
-			case 2:
+			case Store::APPLE:
 				return "Apple Music";
-			case 3:
+			case Store::ITUNES:
 				return "iTunes";
-			case 4:
+			case Store::SOUNDCLOUD:
 				return "Soundcloud";
-			case 5:
+			case Store::YOUTUBE:
 				return "YouTube";
-			case 6:
+			case Store::DEEZER:
 				return "Deezer";
-			case 7:
+			case Store::AMAZON:
 				return "Amazon";
-			case 8:
+			case Store::GPLAY:
 				return "Google Play";
 		}
 	}
 
 	static function action($id) {
 		switch ($id) {
-			case 1:
+			case Store::SPOTIFY:
 				return "Listen";
-			case 2:
+			case Store::APPLE:
 				return "Listen";
-			case 3:
+			case Store::ITUNES:
 				return "Buy";
-			case 4:
+			case STORE::SOUNDCLOUD:
 				return "Listen";
-			case 5:
+			case Store::YOUTUBE:
 				return "Watch";
-			case 6:
+			case Store::DEEZER:
 				return "Listen";
-			case 7:
+			case Store::AMAZON:
 				return "Buy";
-			case 8:
+			case Store::DEEZER:
 				return "Buy";
 		}
 	}

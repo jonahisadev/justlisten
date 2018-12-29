@@ -19,7 +19,7 @@ function POST(url, data, callback) {
 	req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	req.setRequestHeader("Accept", "text/html");
 
-	req.onreadystatechange = () => {
+	req.onload = () => {
 		if (req.readyState == XMLHttpRequest.DONE && req.status == 200) {
 			callback(req.response);
 		} else {

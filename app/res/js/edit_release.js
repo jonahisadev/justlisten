@@ -13,5 +13,10 @@ function loadRelease(id) {
 		document.getElementById("art-img").src = ROOT + "/app/res/img/user_upload/" + rel.art + ".jpg";
 
 		addStores(rel.stores);
+
+		Array.from(document.getElementsByClassName("store-link")).forEach((link) => {
+			var parent = link.parentElement;
+			validateURL(link, parent.children[0].selectedIndex, parent.children[1].value);
+		});
 	});
 }

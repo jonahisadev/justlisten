@@ -560,9 +560,26 @@ select:focus {
 .flash-x {
 	float: left;
 	cursor: pointer;
+
 	transition: color .125s;
 }
 
 .flash-x:hover {
 	color: #444;
+}
+
+.store-link {
+	transition: background-color .25s, border .25s;
+}
+
+.store-link.valid {
+	border-color: #077324;
+	background-color: #A7EBB9;
+	transition: background-color .25s, border .25s;
+}
+
+.store-link.invalid {
+	border-color: #5E0000;
+	background-color: #EBA7A7;
+	transition: background-color .25s, border .25s;
 }

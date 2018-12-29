@@ -34,8 +34,9 @@
 
 	?>
 
-	<?= script("new_release.js"); ?>
 	<?= script("rest.js") ?>
+	<?= script("classifier.js") ?>
+	<?= script("new_release.js"); ?>
 	<?= script("api_release.js"); ?>
 	<?= script("edit_release.js"); ?>
 
