@@ -196,6 +196,18 @@ class Rel extends DAO {
 		$this->save();
 	}
 
+	public static function cleanseURL($url) {
+		$str = "";
+		for ($i = 0; $i < strlen($url); $i++) {
+			$c = ord(substr($url, $i, 1));
+			if (($c >= ord('A') && $c <= ord('Z')) || ($c >= ord('a') && $c <= ord('z')) ||
+					($c >= ord('0') && $c <= ord('9')) || $c == ord('-')) {
+				$str .= chr($c);
+			}
+		}
+		return $str;
+	}
+
 }
 
 ?>

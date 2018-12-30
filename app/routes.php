@@ -18,7 +18,21 @@
 				"name" => Session::get("login_name")
 			]);
 		} else {
-			View::show("login");
+			if (Session::hasFlash("s_username")) {
+				View::show("login", [
+					"s_username" => Session::getFlash("s_username"),
+					"name" => Session::getFlash("name"),
+					"email" => Session::getFlash("email"),
+					"beta_code" => Session::getFlash("beta_code")
+				]);
+			}
+			else if (Session::hasFlash("l_username")) {
+				View::show("login", [
+					"l_username" => Session::getFlash("l_username")
+				]);
+			} else {
+				View::show("login");
+			}
 		}
 	});
 
@@ -56,7 +70,7 @@
 
 		// Get some variables
 		$title = $_POST['title'];
-		$url = $_POST['url'];
+		$url = Rel::cleanseURL($_POST['url']);
 		$date = $_POST['date'];
 		$label = $_POST['label'];
 		$type = $_POST['type'];
@@ -170,7 +184,7 @@
 
 		// Basic variables
 		$title = $_POST['title'];
-		$url = $_POST['url'];
+		$url = Rel::cleanseURL($_POST['url']);
 		$date = $_POST['date'];
 		$label = $_POST['label'];
 		$type = $_POST['type'];
@@ -269,12 +283,14 @@
 		if ($user->username == NULL || !password_verify($password, $user->password)) {
 			Session::init();
 			Session::addFlash("bad");
+			Session::addFlash("l_username", $username);
 			View::redirect("/");
 		}
 
 		if ($user->verify != "0") {
 			Session::init();
 			Session::addFlash("bad_verify");
+			Session::addFlash("l_username", $username);
 			View::redirect("/");
 		}
 
@@ -299,36 +315,43 @@
 		if (empty($username) || empty($name) || empty($email) || empty($pass1) || empty($pass2) ||
 				empty($beta_code)) {
 			Session::addFlash("empty");
-			View::redirect("/");
+			$error = TRUE;
 		}
 
 		// Email exists
 		$temp = User::getBy("email", $email);
 		if ($temp->email != NULL) {
-			Session::addFlash("email");
-			View::redirect("/");
+			Session::addFlash("bademail");
+			$error = TRUE;
 		}
 
 		// Username exists
 		$temp = User::getBy("username", $username);
 		if ($temp->username != NULL) {
 			Session::addFlash("username");
-			View::redirect("/");
+			$error = TRUE;
 		}
 
 		// Passwords don't match
 		if ($pass1 != $pass2) {
 			Session::addFlash("passmatch");
-			View::redirect("/");
+			$error = TRUE;
 		}
 
 		// Check for a beta code
 		$beta = Beta::get($beta_code);
 		if ($beta->code == NULL) {
 			Session::addFlash("nobeta");
+			$error = TRUE;
+		}
+
+		if ($error) {
+			Session::addFlash("s_username", $username);
+			Session::addFlash("name", $name);
+			Session::addFlash("email", $email);
+			Session::addFlash("beta_code", $beta_code);
 			View::redirect("/");
 		}
-		$beta->delete();
 
 		// Hash password
 		$password = password_hash($pass1, PASSWORD_ARGON2I);
@@ -347,6 +370,7 @@
 
 		Session::remove("flsh_signup");
 		Session::addFlash("verify");
+		$beta->delete();
 		View::redirect("/");
 	});
 
@@ -377,15 +401,17 @@
 		Session::init();
 		$user = User::getBy("username", $username);
 		if ($user->id == NULL) {
-			echo("No such username '" . $username . "'");
-			die();
+			View::show("error", [
+				"error" => "You don't have access to this page!"
+			]);
+			return;
 		}
 
 		if ($user->id != Session::get("login_id")) {
 			View::show("error", [
 				"error" => "You don't have access to this page!"
 			]);
-			exit();
+			return;
 		}
 
 		$R = $user->getRelease($url);
@@ -421,15 +447,17 @@
 		Session::init();
 		$user = User::getBy("username", $username);
 		if ($user->id == null) {
-			echo ("No such username '" . $username . "'");
-			die();
+			View::show("error", [
+				"error" => "You don't have access to this page!"
+			]);
+			return;
 		}
 
 		if ($user->id != Session::get("login_id")) {
 			View::show("error", [
 				"error" => "You don't have access to this page!"
 			]);
-			exit();
+			return;
 		}
 
 		$R = $user->getRelease($url);
@@ -452,8 +480,10 @@
 		Session::init();
 		$user = User::getBy("username", $username);
 		if ($user->id == null) {
-			echo ("No such username '" . $username . "'");
-			die();
+			View::show("error", [
+				"error" => "This release doesn't exist"
+			]);
+			return;
 		}
 
 		$R = $user->getRelease($url);
