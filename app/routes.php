@@ -338,6 +338,11 @@
 			$error = TRUE;
 		}
 
+		if (Rel::cleanseURL($username) != $username) {
+			Session::addFlash("cleanusername");
+			$error = TRUE;
+		}
+
 		// Check for a beta code
 		$beta = Beta::get($beta_code);
 		if ($beta->code == NULL) {

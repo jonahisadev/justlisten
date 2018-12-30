@@ -201,7 +201,7 @@ class Rel extends DAO {
 		for ($i = 0; $i < strlen($url); $i++) {
 			$c = ord(substr($url, $i, 1));
 			if (($c >= ord('A') && $c <= ord('Z')) || ($c >= ord('a') && $c <= ord('z')) ||
-					($c >= ord('0') && $c <= ord('9')) || $c == ord('-')) {
+					($c >= ord('0') && $c <= ord('9')) || $c == ord('-') || $c == ord('_')) {
 				$str .= chr($c);
 			}
 		}

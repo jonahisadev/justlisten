@@ -36,6 +36,8 @@
 				flash_message(FLASH_RED, "Username is already taken");
 			} else if (Session::hasFlash("nobeta")) {
 				flash_message(FLASH_RED, "Invalid beta code");
+			} else if (Session::hasFlash("cleanusername")) {
+				flash_message(FLASH_RED, "Username should only have letters, numbers, and underscores");
 			}
 		}
 
