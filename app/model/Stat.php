@@ -39,9 +39,10 @@ class Stat {
 	const DEEZER = 21;
 	const AMAZON = 22;
 	const GPLAY = 23;
+	const BANDCAMP = 24;
 
 	// ARRAY SIZE
-	const STATS_ARRAY_SIZE = 24;
+	const STATS_ARRAY_SIZE = 25;
 
 	function getStore($id) {
 		switch ($id) {
@@ -61,6 +62,8 @@ class Stat {
 				return "Amazon";
 			case Stat::GPLAY:
 				return "Google Play";
+			case Stat::BANDCAMP:
+				return "Bandcamp";
 			default:
 				return "???";
 		}

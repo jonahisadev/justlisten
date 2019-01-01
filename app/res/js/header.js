@@ -37,6 +37,9 @@ function setHeaderStore() {
 		case 8:
 			placeholder.innerHTML += "Google Play";
 			break;
+		case 9:
+			placeholder.innerHTML += "Bandcamp";
+			break;
 	}
 
 	title.innerHTML += "</span>";

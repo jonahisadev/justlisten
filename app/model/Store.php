@@ -10,6 +10,7 @@ class Store {
 	const DEEZER = 6;
 	const AMAZON = 7;
 	const GPLAY = 8;
+	const BANDCAMP = 9;
 
 	public static function validURL($store, $url) {
 		switch ($store) {
@@ -43,6 +44,10 @@ class Store {
 			}
 			case Store::GPLAY: {
 				$reg = "/^https:\/\/(.+\.)?play.google.com\/.+$/";
+				break;
+			}
+			case Store::BANDCAMP: {
+				$reg = "/^https:\/\/(.+).bandcamp.com\/.+$/";
 				break;
 			}
 			case 0: {

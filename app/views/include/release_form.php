@@ -11,7 +11,7 @@
 				<input type="text" id="title" name="title" placeholder="Title" value="<?=$title?>" required/>
 				<input type="text" id="url" name="url" placeholder="URL" value="<?=$url?>" required/>
 				<input type="date" id="date" name="date" placeholder="Release Date" value="<?=$date?>" required/>
-				<input type="text" id="label" name="label" placeholder="Label" value="<?=$label?>" required/>
+				<input type="text" id="label" name="label" placeholder="P-Line" value="<?=$label?>" required/>
 				<select name="type" id="type">
 					<option value="0" <?php if ($type == 0) { ?> selected <?php } ?>>Release Type</option>
 					<option value="1" <?php if ($type == 1) { ?> selected <?php } ?>>Single</option>

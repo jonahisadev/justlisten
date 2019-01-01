@@ -6,3 +6,4 @@
 <option value="6">Deezer</option>
 <option value="7">Amazon</option>
 <option value="8">Google Play</option>
+<option value="9">Bandcamp</option>

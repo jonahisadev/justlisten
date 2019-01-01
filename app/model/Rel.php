@@ -52,6 +52,8 @@ class Rel extends DAO {
 				return "Amazon";
 			case Store::GPLAY:
 				return "Google Play";
+			case Store::BANDCAMP:
+				return "Bandcamp";
 		}
 	}
 
@@ -72,6 +74,10 @@ class Rel extends DAO {
 			case Store::AMAZON:
 				return "Buy";
 			case Store::DEEZER:
+				return "Buy";
+			case Store::GPLAY:
+				return "Buy";
+			case Store::BANDCAMP:
 				return "Buy";
 		}
 	}
