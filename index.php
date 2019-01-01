@@ -2,11 +2,11 @@
 
 	// Prepare URL
 	function prepare_url($str) {
-		$x = str_replace(BASEURL, "", explode("?", $str)[0]);
+		$x = str_replace(INDEX, "", explode("?", $str)[0]);
 		if (substr($x, -1) != "/") {
 			if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 				$x = substr($x, 1, strlen($x)-1);
-				header("Location: " . BASEURL  . "/" . $x . "/", TRUE, 301);
+				header("Location: " . INDEX  . "/" . $x . "/", TRUE, 301);
 				exit();
 			} else {
 				$x .= "/";
@@ -17,7 +17,19 @@
 
 	// Parse config
 	$config = parse_ini_file("config.ini", true);
-	define("BASEURL", $config['app']['baseurl'], true);
+
+	if ($config['app']['index'] == "/") {
+		define("INDEX", "", true);
+	} else {
+		define("INDEX", $config['app']['index'], true);
+	}
+
+	if ($config['app']['baseurl'] == "/") {
+		define("BASEURL", "", true);
+	} else {
+		define("BASEURL", $config['app']['baseurl'], true);
+	}
+
 	define("VIEWPATH", $config['app']['views'], true);
 
 	// Prepare the URL

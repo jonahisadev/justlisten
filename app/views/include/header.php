@@ -1,10 +1,10 @@
 <div class="header">
-	<h1 id="jl-title"><a href="<?= BASEURL ?>">Just Listen</a></h1>
+	<h1 id="jl-title"><a href="<?= INDEX ?>">Just Listen</a></h1>
 	<?php if (Session::has("login_id")) { ?>
 	<div class="header-menu">
 		<h2><?= Session::get("login_user") ?></h2>
 		<div class="header-menu-content">
-			<a href="<?= BASEURL ?>">Home</a>
+			<a href="<?= INDEX ?>">Home</a>
 			<a href="<?= BASEURL ?>/a/<?= Session::get("login_user") ?>">Profile</a>
 			<a href="<?= BASEURL ?>/about">About</a>
 			<a target="_blank" href="https://paypal.me/jonahisadev">Donate</a>

@@ -7,9 +7,9 @@ class Art {
 		list($width, $height, $type, $attr) = getimagesize($file['tmp_name']);
 
 		// Check for JPEG
-		if (mime_content_type($file['tmp_name']) != "image/jpeg") {
-			return "File must be a JPEG image";
-		}
+		// if (mime_content_type($file['tmp_name']) != "image/jpeg") {
+		// 	return "File must be a JPEG image";
+		// }
 
 		// Check square
 		if ($width != $height) {

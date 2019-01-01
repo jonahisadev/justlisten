@@ -136,7 +136,8 @@ abstract class DAO {
 		}
 
 		if (!mysqli_query($db, $sql)) {
-			echo("Error running query\n");
+			echo("Error running query - " . mysqli_error($db) . "\n");
+			echo($sql . "\n");
 			exit();
 		}
 

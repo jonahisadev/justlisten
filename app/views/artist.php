@@ -11,13 +11,6 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title><?= $name ?></title>
 	<?= stylesheet("style.css") ?>
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<script>
-	(adsbygoogle = window.adsbygoogle || []).push({
-		google_ad_client: "ca-pub-8780979666437215",
-		enable_page_level_ads: true
-	});
-	</script>
 </head>
 <body>
 	<?php include 'include/header.php'; ?>
