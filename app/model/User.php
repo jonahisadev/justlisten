@@ -62,6 +62,18 @@ class User extends DAO {
 		$this->save();
 	}
 
+	public static function cleanseUsername($username) {
+		$str = "";
+		for ($i = 0; $i < strlen($username); $i++) {
+			$c = ord(substr($username, $i, 1));
+			if (($c >= ord('a') && $c <= ord('z')) || ($c >= ord('0') && $c <= ord('9'))
+					|| $c == ord('_')) {
+				$str .= chr($c);
+			}
+		}
+		return $str;
+	}
+
 }
 
 ?>

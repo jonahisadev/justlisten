@@ -10,7 +10,7 @@ function setHeaderStore() {
 
 	var title = document.getElementById("jl-title");
 	title.innerHTML += '<span id="divider"> - </span><span id="current-store" onclick="headerClick()">';
-	var placeholder = title.childNodes[2];
+	var placeholder = title.childNodes[3];
 
 	switch (store) {
 		case 1:

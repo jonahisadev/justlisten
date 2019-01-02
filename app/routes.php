@@ -338,7 +338,7 @@
 			$error = TRUE;
 		}
 
-		if (Rel::cleanseURL($username) != $username) {
+		if (User::cleanseUsername($username) != $username) {
 			Session::addFlash("cleanusername");
 			$error = TRUE;
 		}
