@@ -47,5 +47,6 @@
 	<?= csrf_field() ?>
 	<?= script("rest.js") ?>
 	<?= script("home.js") ?>
+	<?= script("modal.js") ?>
 </body>
 </html>

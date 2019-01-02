@@ -52,7 +52,6 @@
 
 <div class="modal" id="art-modal">
 	<div class="modal-content center">
-		<h2 class="modal-close" onclick="hideModal('art-modal')">×</h2>
 		<h1>Art Requirements</h1>
 		<div style="text-align: left; width: 50%; margin-left: 25%;">
 			<ul>

@@ -16,9 +16,15 @@
 		<a class="btn-large" href="a/<?= $username ?>/<?= $R->url ?>/edit">Edit</a>
 	</div>
 	<div class="home-release-col">
-		<a class="btn-large" onclick="deleteRelease('<?= $username ?>/<?= $R->url ?>')">Delete</a>
+		<a class="btn-large" onclick="showShare(<?=$i?>);">Share</a>
 	</div>
 	<div class="home-release-col">
 		<a class="btn-large" href="a/<?= $username ?>/<?= $R->url ?>/stats">Stats</a>
+	</div>
+	<div class="modal" id="share-modal-<?=$i?>">
+		<div class="modal-content center">
+			<h1>Share <u><?=$R->title?></u></h1>
+			<input type="text" id="share-link-<?=$i?>" value="https://jstlstn.me/<?=$R->link?>" style="width: 50%;"/>
+		</div>
 	</div>
 </div>

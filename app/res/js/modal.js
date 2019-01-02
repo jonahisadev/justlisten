@@ -13,11 +13,11 @@ function hideModal(id) {
 }
 
 Array.from(document.getElementsByClassName("modal")).forEach((modal) => {
-	window.onclick = (event) => {
+	addEventListener("click", (e) => {
 		if (event.target == modal) {
 			modal.style.display = "none";
 		}
-	}
+	});
 });
 
 window.addEventListener("keydown", (e) => {

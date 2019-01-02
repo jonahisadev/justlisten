@@ -54,6 +54,11 @@ class User extends DAO {
 				if ($R->art != "../default") {
 					unlink($base . "/res/img/user_upload/" . $R->art . ".jpg");
 				}
+				
+				// Remove short link
+				$L = Link::get($R->link);
+				$L->delete();
+
 				array_splice($rels, $i, 1);
 				break;
 			}

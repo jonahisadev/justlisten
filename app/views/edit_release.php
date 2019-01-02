@@ -1,5 +1,6 @@
 <?php
 
+	$A = User::get($a_id);
 	$R = Rel::get($r_id);
 
 ?>
@@ -33,6 +34,10 @@
 		include 'include/release_form.php';
 
 	?>
+
+	<div class="center">
+		<h4 class="link" style="color: red; font-size: 16pt; margin-bottom: 20px;" onclick='deleteRelease("<?=$A->username?>/<?=$R->url?>");'>Delete</h4>
+	</div>
 
 	<?= script("rest.js") ?>
 	<?= script("classifier.js") ?>

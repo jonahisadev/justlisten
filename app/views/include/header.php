@@ -1,5 +1,5 @@
 <div class="header">
-	<h1 id="jl-title"><a href="<?= INDEX ?>">Just Listen</a><span style="font-size: 9pt; margin-left: 5px;">v0.7c</span></h1>
+	<h1 id="jl-title"><a href="<?= INDEX ?>">Just Listen</a><span style="font-size: 9pt; margin-left: 5px;">v0.7e</span></h1>
 	<?php if (Session::has("login_id")) { ?>
 	<div class="header-menu">
 		<h2><?= Session::get("login_user") ?></h2>
@@ -18,7 +18,6 @@
 <?php if (isset($_COOKIE['store'])) { ?>
 <div class="modal" id="store-modal">
 	<div class="modal-content center">
-		<h2 class="modal-close" onclick="hideModal('store-modal')">×</h2>
 		<h1>Set Default Store</h1>
 		<select id="store-selector" style="width: 50%">
 			<option value="0">Reset</option>

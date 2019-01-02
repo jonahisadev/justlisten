@@ -4,6 +4,7 @@
 	include 'model/Rel.php';
 	include 'model/Beta.php';
 	include 'model/Art.php';
+	include 'model/Link.php';
 
 	//
 	//	MAIN PAGE
@@ -135,6 +136,9 @@
 			View::redirect("/new");
 		}
 
+		// Generate short link
+		$ls = substr(base64_encode(mt_rand()), 0, 10);
+
 		// Create the release
 		$release = Rel::new([
 			"art" => $art,
@@ -143,7 +147,8 @@
 			"date" => strtotime($date),
 			"label" => $label,
 			"release_type" => $type,
-			"privacy" => $privacy
+			"privacy" => $privacy,
+			"link" => $ls
 		]);
 		$release->setStores($stores);
 		$release->save();
@@ -151,6 +156,13 @@
 		// Add release to user's release list
 		$user->addRelease($release->id);
 		$user->save();
+
+		// Save short link
+		$link = Link::new([
+			"id" => $ls,
+			"url" => $user->username . "/" . $url
+		]);
+		$link->save();
 
 		Session::addFlash("success_msg", "Release created!");
 		View::redirect("/");
