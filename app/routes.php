@@ -69,6 +69,7 @@
 
 		View::show("new_release", [
 			"name" => Session::get("login_name"),
+			"a_id" => Session::get("login_id"),
 			"user" => Session::get("login_user")
 		]);
 	});

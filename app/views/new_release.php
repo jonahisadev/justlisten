@@ -1,3 +1,9 @@
+<?php
+
+	$A = User::get($a_id);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

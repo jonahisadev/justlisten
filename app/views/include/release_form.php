@@ -14,8 +14,8 @@
 				</div><br>
 				
 				<div class="input-container">
-					<h3>URL</h3>
-					<input type="text" id="url" name="url" placeholder="This goes after your username in the share link" value="<?=$url?>" required/>
+					<h3>URL Slug</h3>
+					<input type="text" id="url" name="url" placeholder="https://justlisten.me/<?=$A->username?>/url-slug" value="<?=$url?>" required/>
 				</div><br>
 
 				<div class="input-container">

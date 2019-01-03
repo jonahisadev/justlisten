@@ -281,6 +281,10 @@ img.img-upload:hover {
 	margin-top: 5px;
 }
 
+input[type="date"] {
+	font-family: "Roboto";
+}
+
 input[type="text"], input[type="date"] {
 	font-size: 16pt;
 	padding: 5px;
