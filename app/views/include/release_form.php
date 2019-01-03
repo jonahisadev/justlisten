@@ -8,22 +8,46 @@
 					<input type="file" name="art" id="art" accept="image/jpeg" hidden>
 				</div>
 
-				<input type="text" id="title" name="title" placeholder="Title" value="<?=$title?>" required/>
-				<input type="text" id="url" name="url" placeholder="URL" value="<?=$url?>" required/>
-				<input type="date" id="date" name="date" placeholder="Release Date" value="<?=$date?>" required/>
-				<input type="text" id="label" name="label" placeholder="P-Line" value="<?=$label?>" required/>
-				<select name="type" id="type">
-					<option value="0" <?php if ($type == 0) { ?> selected <?php } ?>>Release Type</option>
-					<option value="1" <?php if ($type == 1) { ?> selected <?php } ?>>Single</option>
-					<option value="2" <?php if ($type == 2) { ?> selected <?php } ?>>EP</option>
-					<option value="3" <?php if ($type == 3) { ?> selected <?php } ?>>Album</option>
-					<option value="4" <?php if ($type == 4) { ?> selected <?php } ?>>Compilation</option>
-				</select>
-				<select name="privacy" id="privacy">
-					<option value="0" <?php if ($privacy == 0) { ?> selected <?php } ?>>Privacy</option>
-					<option value="1" <?php if ($privacy == 1) { ?> selected <?php } ?>>Private</option>
-					<option value="2" <?php if ($privacy == 2) { ?> selected <?php } ?>>Public</option>
-				</select>
+				<div class="input-container">
+					<h3>Title</h3>
+					<input type="text" id="title" name="title" placeholder="Release Title" value="<?=$title?>" required/>
+				</div><br>
+				
+				<div class="input-container">
+					<h3>URL</h3>
+					<input type="text" id="url" name="url" placeholder="This goes after your username in the share link" value="<?=$url?>" required/>
+				</div><br>
+
+				<div class="input-container">
+					<h3>Release Date</h3>
+					<input type="date" id="date" name="date" placeholder="YYYY-MM-DD" value="<?=$date?>" required/>
+				</div><br>
+
+				<div class="input-container">
+					<h3>P-Line</h3>
+					<input type="text" id="label" name="label" placeholder="Label name or your artist name" value="<?=$label?>" required/>
+				</div><br>
+
+				<div class="input-container">
+					<h3 style="margin: 0;">Release Type</h3>
+					<select name="type" id="type">
+						<option value="0" <?php if ($type == 0) { ?> selected <?php } ?>></option>
+						<option value="1" <?php if ($type == 1) { ?> selected <?php } ?>>Single</option>
+						<option value="2" <?php if ($type == 2) { ?> selected <?php } ?>>EP</option>
+						<option value="3" <?php if ($type == 3) { ?> selected <?php } ?>>Album</option>
+						<option value="4" <?php if ($type == 4) { ?> selected <?php } ?>>Compilation</option>
+					</select>
+				</div><br>
+
+				<div class="input-container">
+					<h3 style="margin: 0;">Privacy</h3>
+					<select name="privacy" id="privacy">
+						<option value="0" <?php if ($privacy == 0) { ?> selected <?php } ?>></option>
+						<option value="1" <?php if ($privacy == 1) { ?> selected <?php } ?>>Private</option>
+						<option value="2" <?php if ($privacy == 2) { ?> selected <?php } ?>>Public</option>
+					</select><br>
+					<h5 style="float: right; margin: 0;">Private releases are <i>NOT</i> shown on your profile</h5>
+				</div>
 			</div>
 
 			<div class="new-release-right">
@@ -42,9 +66,9 @@
 			<input type="hidden" name="store-count" id="store-count" value="1" />
 			<?= csrf_field() ?>
 			<?php if ($action == "create") { ?>
-			<input type="submit" class="btn-large" value="Submit" />
+			<input type="submit" class="btn-large" value="Create Release" />
 			<?php } else { ?>
-			<input type="submit" class="btn-large" value="Save" />
+			<input type="submit" class="btn-large" value="Save Release" />
 			<?php } ?>
 		</div>
 	</div>

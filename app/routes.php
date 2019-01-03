@@ -7,6 +7,12 @@
 	include 'model/Link.php';
 	include 'model/Util.php';
 
+	function login_guard() {
+		if (!Session::has("login_id")) {
+			View::redirect("/");
+		}
+	}
+
 	//
 	//	MAIN PAGE
 	//
@@ -44,6 +50,7 @@
 
 	Route::get("/new", function() {
 		Session::init();
+		login_guard();
 
 		if (Session::hasFlash("error")) {
 			View::show("new_release", [
