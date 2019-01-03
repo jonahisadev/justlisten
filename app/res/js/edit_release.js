@@ -26,7 +26,7 @@ var url;
 function delCallback(data) {
 	var json = JSON.parse(data);
 	if (json.status == "success") {
-		window.location.href = ROOT;
+		window.location.href = "/";
 	}
 }
 

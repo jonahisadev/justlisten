@@ -5,6 +5,7 @@
 	include 'model/Beta.php';
 	include 'model/Art.php';
 	include 'model/Link.php';
+	include 'model/Util.php';
 
 	//
 	//	MAIN PAGE
@@ -137,7 +138,10 @@
 		}
 
 		// Generate short link
-		$ls = substr(base64_encode(mt_rand()), 0, 10);
+		$ls = Util::generateID(10);
+		if (Link::get($ls) != NULL) {
+			$ls = Util::generateID(10);
+		}
 
 		// Create the release
 		$release = Rel::new([
@@ -251,6 +255,11 @@
 			Session::addFlash("stores", $stores);
 			View::redirect("/a/" . $username . "/" . $url . "/edit");
 		}
+
+		// Update short link redirect URL
+		$link = Link::get($R->link);
+		$link->url = $user->username . "/" . $url;
+		$link->save();
 
 		// Save data
 		$R->title = $title;
