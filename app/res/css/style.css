@@ -383,6 +383,7 @@ select:focus {
 
 .home-release-col {
 	width: 16%;
+	display: inline-block;
 }
 
 .home-release-col .btn-large {
@@ -395,6 +396,14 @@ select:focus {
 
 .home-release-col:not(:last-child) {
 	margin-right: 10px;
+}
+
+.home-release-img {
+	position: relative;
+	width: 95%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .profile-container {

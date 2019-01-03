@@ -1,6 +1,6 @@
 <div class="home-release-container" id="<?= $username ?>/<?= $R->url ?>">
 	<div class="home-release-col">
-		<?= image("user_upload/" . $R->art . ".jpg", ["width" => "200"]) ?>
+		<?= image("user_upload/" . $R->art . ".jpg", ["class" => "home-release-img"]) ?>
 	</div>
 	<div class="home-release-col">
 		<h3><?= $R->title ?> <?php if ($R->privacy == Rel::PRIV) { ?> <b style="color: red;">[PRIVATE]</b> <?php } ?></h3>

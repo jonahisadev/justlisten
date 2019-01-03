@@ -20,6 +20,13 @@
 		<?= image("user_upload/" . $A->profile . ".jpg", ["width" => "200px"]) ?>
 		<?php if ($A->id == Session::get("login_id")) { ?><br>
 		<h4 class="link" onclick="window.location.href='edit'">Edit</h4>
+		<h4 class="link" onclick="showShare();" style="margin-left: 15px;">Share</h4>
+		<div class="modal" id="share-modal">
+			<div class="modal-content center">
+				<h1>Share Profile</h1>
+				<input type="text" id="share-link" value="https://jstlstn.me/a/<?=$A->username?>" style="width: 50%;"/>
+			</div>
+		</div>
 		<?php } ?>
 		<div class="main-content grid-container">
 			<?php
@@ -57,5 +64,6 @@
 	<?= script("modal.js") ?>
 	<?= script("rest.js") ?>
 	<?= script("new_release.js") ?>
+	<?= script("artist.js") ?>
 </body>
 </html>

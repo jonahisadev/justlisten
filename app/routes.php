@@ -410,6 +410,7 @@
 			View::show("error", [
 				"error" => "The user '" . $username . "' doesn't exist :("
 			]);
+			return;
 		}
 
 		Session::init();
