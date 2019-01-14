@@ -9,6 +9,7 @@
 
 	function login_guard() {
 		if (!Session::has("login_id")) {
+			Session::addFlash("expired");
 			View::redirect("/");
 		}
 	}

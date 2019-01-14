@@ -41,6 +41,10 @@
 			}
 		}
 
+		if (Session::hasFlash("expired")) {
+			flash_message(FLASH_RED, "Your session has expired. Please log back in.");
+		}
+
 	?>
 
 	<div class="login-form" id="login">
