@@ -50,9 +50,34 @@ body {
 	z-index: 99;
 }
 
+@media screen and (max-width: 640px) {
+	body {
+		padding-top: 35px;
+	}
+
+	.header {
+		height: 35px;
+	}
+
+	.header h1 {
+		font-size: 14pt;
+	}
+
+	.header-menu {
+		min-width: 50px;
+		height: 100%;
+	}
+
+	.header-menu h2{
+		font-size: 10pt;
+		margin-top: 25%;
+	}
+}
+
 .header-menu:hover {
 	cursor: pointer;
 	background-color: #EEE;
+	border-bottom: 1px solid #CCC;
 	color: #222222;
 	border: none;
 }
@@ -434,10 +459,39 @@ select:focus {
 	display: flex;
 }
 
-.grid {
-	margin-top: 15px;
-	width: 20%;
-	height: 20%;
+/* DESKTOP */
+@media screen and (min-width: 640px) {
+	.grid-container {
+		display: flex;
+	}
+
+	.grid {
+		margin-top: 15px;
+		width: 20%;
+		height: 20%;
+	}
+}
+
+/* MOBILE */
+@media screen and (max-width: 640px) {
+	.grid-container {
+		display: inline-block;
+		margin-left: 0px;
+	}
+
+	.grid {
+		margin-top: 15px;
+		margin-left: 2.5%;
+		margin-right: 2.5%;
+		width: 45%;
+		height: 20%;
+		display: inline-block;
+		float: left;
+	}
+
+	.grid:nth-child(even) {
+		float: right;
+	}
 }
 
 .grid h4 {
@@ -482,6 +536,40 @@ select:focus {
 	margin-left: 25%;
 }
 
+/* DESKTOP */
+@media screen and (min-width: 640px) {
+	.modal-content {
+		background-color: #FEFEFE;
+		margin: 5% auto;
+		padding: 10px;
+		width: 50%;
+		color: #222;
+		box-sizing: border-box;
+		border-radius: 10px;
+	}
+
+	.modal-content input[type="text"] {
+		width: 60%;
+	}
+}
+
+/* MOBILE */
+@media screen and (max-width: 640px) {
+	.modal-content {
+		background-color: #FEFEFE;
+		margin: 50% auto;
+		padding: 10px;
+		width: 95%;
+		color: #222;
+		box-sizing: border-box;
+		border-radius: 10px;
+	}
+
+	.modal-content input[type="text"] {
+		width: 100%;
+	}
+}
+
 .modal {
 	display: none;
 	position: fixed;
@@ -492,16 +580,6 @@ select:focus {
 	height: 100%;
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.75);
-}
-
-.modal-content {
-	background-color: #FEFEFE;
-	margin: 5% auto;
-	padding: 10px;
-	width: 50%;
-	color: #222;
-	box-sizing: border-box;
-	border-radius: 10px;
 }
 
 .modal-close {
