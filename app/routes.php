@@ -680,6 +680,57 @@
 	});
 
 	//
+	//	SETTINGS
+	//
+
+	Route::get("/settings", function() {
+		View::show("settings");
+	});
+
+	Route::spost("/settings/password", function($old, $new1, $new2) {
+		$user = User::get(Session::get("login_id"));
+		if ($user->id == NULL) {
+			View::show("error", [
+				"error" => "You're not allowed here"
+			]);
+			return;
+		}
+
+		if (empty($old) || empty($new1) || empty($new2)) {
+			$error = "Please fill out fields";
+		}
+
+		// Verify old password
+		if (!$error) {
+			if (!password_verify($old, $user->password)) {
+				$error = "Incorrect password";
+			}
+		}
+
+		// Verify new passwords are the same
+		if (!$error) {
+			if ($new1 != $new2) {
+				$error = "New passwords didn't match";
+			}
+		}
+
+		// There was error
+		if ($error) {
+			Session::addFlash("error", $error);
+			View::redirect("/settings");
+			return;
+		}
+
+		// Save password
+		$password = password_hash($new1, PASSWORD_ARGON2I);
+		$user->password = $password;
+		$user->save();
+
+		Session::addFlash("success", "Successfully changed password");
+		View::redirect("/settings");
+	});
+
+	//
 	//	REST STORE VALIDATION
 	//
 

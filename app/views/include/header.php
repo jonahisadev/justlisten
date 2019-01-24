@@ -1,11 +1,12 @@
 <div class="header">
-	<h1 id="jl-title"><a href="<?= INDEX ?>">Just Listen</a><span style="font-size: 9pt; margin-left: 5px;">v0.8b</span></h1>
+	<h1 id="jl-title"><a href="<?= INDEX ?>">Just Listen</a><span style="font-size: 9pt; margin-left: 5px;">v0.8c</span></h1>
 	<?php if (Session::has("login_id")) { ?>
 	<div class="header-menu">
 		<h2><?= Session::get("login_user") ?></h2>
 		<div class="header-menu-content">
 			<a href="<?= INDEX ?>">Home</a>
 			<a href="<?= BASEURL ?>/a/<?= Session::get("login_user") ?>">Profile</a>
+			<a href="<?=BASEURL?>/settings">Settings</a>
 			<a href="<?= BASEURL ?>/about">About</a>
 			<a target="_blank" href="https://paypal.me/jonahisadev">Donate</a>
 			<a href="<?= BASEURL ?>/logout">Logout</a>
