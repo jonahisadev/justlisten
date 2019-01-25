@@ -11,6 +11,7 @@ class User extends DAO {
 		$this->string("verify", 32);
 		$this->binary("releases");
 		$this->string("profile", 32, "profile");
+		$this->string("bio", 1024);
 	}
 
 	public function setReleases(array $rel) {

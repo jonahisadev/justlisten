@@ -26,6 +26,7 @@
 			<h4 class="link" onclick="showModal('art-modal')">Art Requirements</h4><br>
 			<?= image("user_upload/" . $A->profile . ".jpg", ["id" => "art-img", "width" => "200", "class" => "img-upload", "onclick" => "selectFile()"]) ?>
 			<input type="file" name="art" id="art" accept="image/jpeg" hidden><br><br>
+			<textarea name="bio" id="bio" cols="30" rows="10" placeholder="Bio"><?= $A->bio ?></textarea><br><br>
 			<?= csrf_field() ?>
 			<input class="btn-large" type="submit" value="Edit" />
 		</form>

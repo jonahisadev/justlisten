@@ -642,6 +642,9 @@
 			}
 		}
 
+		// Bio
+		$user->bio = filter_var($_POST['bio'], FILTER_SANITIZE_STRING);
+
 		$user->name = $name;
 		$user->save();
 		View::redirect("/a/" . $user->username . "");

@@ -16,21 +16,24 @@
 	<?php include 'include/header.php'; ?>
 
 	<div class="profile-container">
-		<h1 class="title"><?= $name ?></h1>
-		<?= image("user_upload/" . $A->profile . ".jpg", ["width" => "200px"]) ?>
-		<?php if ($A->id == Session::get("login_id")) { ?><br>
-		<h4 class="link" onclick="window.location.href='edit'">Edit</h4>
+		<h1 class="title" style="margin-bottom: 5px; font-size: 36pt; margin-top: 5px;"><?= $name ?></h1>
+		<?php if ($A->id == Session::get("login_id")) { ?>
+		<h4 class="link" onclick="window.location.href='edit'" style="margin-top: 0px; margin-bottom: 10px;">Edit</h4>
 		<?php } ?>
-		<?php if ($A->id != Session::get("login_id")) { ?>
-		<br>
-		<?php } ?>
-		<h4 class="link" onclick="showShare();" <?php if ($A->id == Session::get("login_id")) { ?>style="margin-left: 15px;" <?php } ?>>Share</h4>
-		<div class="modal" id="share-modal">
-			<div class="modal-content center">
-				<h1>Share Profile</h1>
-				<input type="text" id="share-link" value="https://jstlstn.me/a/<?= $A->username ?>"/>
+
+		<div class="profile-header">
+			<?= image("user_upload/" . $A->profile . ".jpg", ["width" => "200px"]) ?>
+			<div class="profile-bio main-content" style="min-height: 200px">
+				<p>
+					<?php if ($A->bio == NULL) { ?>
+						<i>No bio</i>
+					<?php } else { ?>
+						<?= $A->bio ?>
+					<?php } ?>
+				</p>
 			</div>
 		</div>
+		<br>
 		<div class="main-content grid-container">
 			<?php
 				$pub_count = 0;
