@@ -15,6 +15,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title><?= $R->title ?> by <?= $A->name ?></title>
+	<?php include 'include/favicon.php'; ?>
 	<?= stylesheet("release.css") ?>
 </head>
 <body>

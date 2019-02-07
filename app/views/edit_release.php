@@ -13,6 +13,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Edit Release</title>
 	<?php include 'include/rest.php'; ?>
+	<?php include 'include/favicon.php'; ?>
 	<?= stylesheet("style.css") ?>
 </head>
 <body <?php if (!$error) { ?>onload="loadRelease(<?= $R->id ?>)" <?php } ?>>
