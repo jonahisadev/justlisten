@@ -644,6 +644,16 @@
 
 		// Bio
 		$user->bio = filter_var($_POST['bio'], FILTER_SANITIZE_STRING);
+		
+		// Socials
+		$social_fb = filter_var($_POST['facebook'], FILTER_SANITIZE_STRING);
+		$social_tw = filter_var($_POST['twitter'], FILTER_SANITIZE_STRING);
+		$social_ig = filter_var($_POST['instagram'], FILTER_SANITIZE_STRING);
+		$user->setSocials([
+			'fb' => $social_fb,
+			'tw' => $social_tw,
+			'ig' => $social_ig
+		]);
 
 		$user->name = $name;
 		$user->save();

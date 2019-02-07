@@ -1,5 +1,5 @@
 <div class="header">
-	<h1 id="jl-title"><a href="<?= INDEX ?>">Just Listen</a><span style="font-size: 9pt; margin-left: 5px;">v0.8d</span></h1>
+	<h1 id="jl-title"><a href="<?= INDEX ?>">Just Listen</a><span style="font-size: 9pt; margin-left: 5px;">v0.8e</span></h1>
 	<?php if (Session::has("login_id")) { ?>
 	<div class="header-menu">
 		<h2><?= Session::get("login_user") ?></h2>

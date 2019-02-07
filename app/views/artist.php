@@ -16,9 +16,11 @@
 	<?php include 'include/header.php'; ?>
 
 	<div class="profile-container">
-		<h1 class="title" style="margin-bottom: 5px; font-size: 36pt; margin-top: 5px;"><?= $name ?></h1>
+		<h1 class="title" style="margin-bottom: 5px; font-size: 36pt; margin-top: 20px;"><?= $name ?></h1>
 		<?php if ($A->id == Session::get("login_id")) { ?>
 		<h4 class="link" onclick="window.location.href='edit'" style="margin-top: 0px; margin-bottom: 10px;">Edit</h4>
+		<?php } else { ?>
+		<br>
 		<?php } ?>
 
 		<div class="profile-header">
@@ -31,6 +33,21 @@
 						<?= $A->bio ?>
 					<?php } ?>
 				</p>
+				<div class="profile-socials-container">
+					<?php
+						$socials = $A->getSocials();
+						if ($socials != NULL) {
+							if (!empty($socials['ig'])) {
+					?>
+					<a target="_blank" href="https://instagram.com/<?=$socials['ig']?>"><?= image("ig_logo.png") ?></a>
+					<?php } if (!empty($socials['tw'])) { ?>
+					<a target="_blank" href="https://twitter.com/<?=$socials['tw']?>"><?= image("tw_logo.png") ?></a>
+					<?php } if (!empty($socials['fb'])) { ?>
+					<a target="_blank" href="https://facebook.com/<?=$socials['fb']?>"><?= image("fb_logo.png") ?></a>
+					<?php	}
+						}
+					?>
+				</div>
 			</div>
 		</div>
 		<br>

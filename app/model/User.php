@@ -12,6 +12,7 @@ class User extends DAO {
 		$this->binary("releases");
 		$this->string("profile", 32, "profile");
 		$this->string("bio", 1024);
+		$this->binary("socials");
 	}
 
 	public function setReleases(array $rel) {
@@ -78,6 +79,17 @@ class User extends DAO {
 			}
 		}
 		return $str;
+	}
+
+	public function setSocials(array $socials) {
+		$this->socials = gzencode(base64_encode(serialize($socials)));
+	}
+
+	public function getSocials() {
+		if ($this->socials == NULL) {
+			return array();
+		}
+		return unserialize(base64_decode(gzdecode($this->socials)));
 	}
 
 }
