@@ -80,12 +80,12 @@
 		$user = User::get(Session::get("login_id"));
 
 		// Get some variables
-		$title = $_POST['title'];
+		$title = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
 		$url = Rel::cleanseURL($_POST['url']);
-		$date = $_POST['date'];
-		$label = $_POST['label'];
-		$type = $_POST['type'];
-		$privacy = $_POST['privacy'];
+		$date = filter_var($_POST['date'], FILTER_SANITIZE_STRING);
+		$label = filter_var($_POST['label'], FILTER_SANITIZE_STRING);
+		$type = filter_var($_POST['type'], FILTER_SANITIZE_NUMBER_INT);
+		$privacy = filter_var($_POST['privacy'], FILTER_SANITIZE_NUMBER_INT);
 
 		// Verify these aren't empty
 		if (empty($title) || empty($url) || empty($date) || empty($label) || $type == 0 || $privacy == 0) {
@@ -102,7 +102,7 @@
 		$store_count = $_POST['store-count'];
 		$stores = [];
 		for ($i = 1; $i <= $store_count; $i++) {
-			$stores[] = [$_POST['store-type-'.$i], $_POST['store-link-'.$i]];
+			$stores[] = [$_POST['store-type-'.$i], filter_var($_POST['store-link-'.$i], FILTER_SANITIZE_URL)];
 
 			if (!Store::validURL($stores[$i-1][0], $stores[$i-1][1])) {
 				$error = "Please enter a valid store URL";
@@ -208,12 +208,12 @@
 		}
 
 		// Basic variables
-		$title = $_POST['title'];
+		$title = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
 		$url = Rel::cleanseURL($_POST['url']);
-		$date = $_POST['date'];
-		$label = $_POST['label'];
-		$type = $_POST['type'];
-		$privacy = $_POST['privacy'];
+		$date = filter_var($_POST['date'], FILTER_SANITIZE_STRING);
+		$label = filter_var($_POST['label'], FILTER_SANITIZE_STRING);
+		$type = filter_var($_POST['type'], FILTER_SANITIZE_NUMBER_INT);
+		$privacy = filter_var($_POST['privacy'], FILTER_SANITIZE_NUMBER_INT);
 		
 		// Verify these aren't empty
 		if (empty($title) || empty($url) || empty($date) || empty($label) || $type == 0 || $privacy == 0) {
@@ -224,7 +224,7 @@
 		$store_count = $_POST['store-count'];
 		$stores = [];
 		for ($i = 1; $i <= $store_count; $i++) {
-			$stores[] = [$_POST['store-type-' . $i], $_POST['store-link-' . $i]];
+			$stores[] = [$_POST['store-type-' . $i], filter_var($_POST['store-link-' . $i], FILTER_SANITIZE_URL)];
 
 			if (!Store::validURL($stores[$i - 1][0], $stores[$i - 1][1])) {
 				$error = "Please enter a valid store URL";
@@ -508,7 +508,7 @@
 	//	GET RELEASE
 	//
 
-	Route::get("/a/{username}/{url}", function ($username, $url) {
+	Route::get("/a/{username}/{url}", function($username, $url) {
 		if ($url == "edit") {
 			return;
 		}
@@ -618,7 +618,7 @@
 		}
 
 		// Name
-		$name = $_POST['name'];
+		$name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
 		if (empty($name)) {
 			Session::addFlash("error", "Please fill out all fields");
 			View::redirect("/a/" . $username . "/edit");
