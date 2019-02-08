@@ -24,14 +24,16 @@ function handleFile() {
 		image.src = reader.result;
 
 		setTimeout(() => {
+			console.log(file.size + ", " + 2 * 1024 * 1024);
+
 			if (image.width != image.height) {
 				resetImage(temp);
 				window.alert("Please use a square image");
 			}
 
-			else if (selector.size > 2 * 1024 * 1024) {
+			else if (file.size > 2 * 1024 * 1024) {
 				resetImage(temp);
-				window.alert("Max image size is 2MB - " + (selector.size / (1024 * 1024)).toFixed(2) + "MB");
+				window.alert("Max image size is 2MB - " + (file.size / (1024 * 1024)).toFixed(2) + "MB");
 			}
 		}, 100);
 	}, false);

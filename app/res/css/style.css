@@ -335,7 +335,7 @@ input[type="text"], input[type="date"], input[type="password"] {
 	width: 66%;
 }
 
-input[type="text"]:focus, input[type="date"]:focus {
+input[type="text"]:focus, input[type="date"]:focus, input[type="password"]:focus {
 	outline: none;
 	border-color: #222;
 }

@@ -25,9 +25,9 @@
 	<div class="center">
 		<h2>Change Password</h2>
 		<form action="password" method="POST" autocomplete="off">
-			<input type="password" name="old" placeholder="Old Password"><br>
-			<input type="password" name="new1" placeholder="New Password"><br>
-			<input type="password" name="new2" placeholder="Confirm New Password"><br>
+			<input style="width: 20%;" type="password" name="old" placeholder="Old Password"><br>
+			<input style="width: 20%;" type="password" name="new1" placeholder="New Password"><br>
+			<input style="width: 20%;" type="password" name="new2" placeholder="Confirm New Password"><br>
 			<?= csrf_field() ?>
 			<input class="btn-large" type="submit" value="Change Password">
 		</form>
