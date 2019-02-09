@@ -20,7 +20,7 @@
 </head>
 <body>
 	<div class="content">
-		<h1 class="title"><?= $R->title ?> by <?= $A->name ?></h1>
+		<h1 class="title"><?= $R->title ?> by <a href="https://jstlstn.me/a/<?= $A->username ?>"><?= $A->name ?></a></h1>
 
 		<div class="release-container">
 			<?= image("user_upload/" . $R->art . ".jpg") ?>

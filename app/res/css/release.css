@@ -110,13 +110,21 @@ body {
 	padding: 10px;
 	cursor: pointer;
 	color: #222;
+
+	transition: background-color .25s, box-shadow .25s;
 }
 
 .store-container-link:hover {
 	background-color: #DDD;
+	box-shadow: inset 0px 0px 15px 0px #444;
 }
 
 h4 {
 	margin: 0px;
 	text-align: center;
+}
+
+h1 a {
+	color: #EEE;
+	text-decoration: underline dotted;
 }
