@@ -6,6 +6,7 @@
 	include 'model/Art.php';
 	include 'model/Link.php';
 	include 'model/Util.php';
+	include 'model/Email.php';
 
 	function login_guard() {
 		if (!Session::has("login_id")) {
@@ -402,7 +403,11 @@
 			'password' => $password,
 			'verify' => $verify
 		]);
+		
+		// Send verification email
+		Email::sendVerification($email, $name, $verify);
 
+		// Other stuff
 		Session::remove("flsh_signup");
 		Session::addFlash("verify");
 		$beta->delete();

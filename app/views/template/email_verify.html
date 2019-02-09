@@ -1,0 +1,63 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=7">
+	<title>Verify Account</title>
+	<style>
+		body {
+			font-family: 'Arial';
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		a {
+			color: #1185a1;
+		}
+
+		.content {
+			width: 50%;
+			margin-left: 25%;
+		}
+
+		@media (max-width: 640px) {
+			.content {
+				width: 95%;
+				margin-left: 2.5%;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Verify Your Email</h1>
+
+		<div class="content">
+			<h3>
+				Hey there {NAME}!
+			</h3>
+
+			<p>
+				Thanks for signing up with Just Listen! In order to use your account, you'll need
+				to verify your email. Lucky for you, if you're reading this, all you have to do is
+				click right <a href="https://justlisten.me/verify_account/{CODE}">here</a> and you're good to go!
+			</p>
+
+			<p>
+				If for some reason you can't click on the link up there, go ahead and copy this link into
+				your browser and it'll do the same thing:<br>
+				<a href="https://justlisten.me/verify_account/{CODE}">https://justlisten.me/verify_account/{CODE}</a>
+			</p>
+
+			<p>
+				Happy listening!
+			</p>
+
+			<p>
+				- Just Listen
+			</p>
+		</div>
+	</div>
+</body>
+</html>
