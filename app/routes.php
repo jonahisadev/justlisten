@@ -238,7 +238,9 @@
 			$art_check = Art::meetsRequirements($_FILES['art']);
 			if (empty($art_check)) {
 				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
-				unlink($filename);
+				if ($R->art != "../default") {
+					unlink($filename);
+				}
 
 				$R->art = substr(str_shuffle(md5(microtime())), 0, 32);
 				$temp_R = Rel::getBy("art", $R->art);

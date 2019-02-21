@@ -26,7 +26,7 @@
 
 		<div class="profile-header">
 			<?= image("user_upload/" . $A->profile . ".jpg", ["width" => "200px"]) ?>
-			<div class="profile-bio main-content" style="min-height: 200px">
+			<div class="profile-bio main-content">
 				<p>
 					<?php if ($A->bio == NULL) { ?>
 						<i>No bio</i>

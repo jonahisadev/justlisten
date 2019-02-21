@@ -225,6 +225,18 @@ h4.link:hover {
 	cursor: pointer;
 }
 
+.mobile-warning {
+	text-align: center;
+	color: red;
+	display: none;
+}
+
+@media screen and (max-width: 640px) {
+	.mobile-warning {
+		display: block;
+	}
+}
+
 .main-content {
 	background-color: #444444;
 	width: 95%;
@@ -477,6 +489,7 @@ select:focus {
 	width: 60%;
 	float: right;
 	box-shadow: 2px 2px 10px #111;
+	min-height: 200px;
 	transform: translate(0px, -5px);
 }
 
@@ -487,6 +500,9 @@ select:focus {
 	text-align: center;
 	width: 50%;
 	margin-left: 25%;
+	border-top: 3px solid #383838;
+	border-radius: 2px;
+	padding-top: 10px;
 }
 
 .profile-socials-container img {
@@ -541,6 +557,16 @@ select:focus {
 		float: none;
 		margin: 0;
 		margin-bottom: 5px;
+		min-height: 0px;
+	}
+
+	.profile-bio p {
+		margin-bottom: 70px;
+	}
+
+	.profile-socials-container {
+		border-width: 2px;
+		padding-top: 0px;
 	}
 
 	.profile-socials-container img {

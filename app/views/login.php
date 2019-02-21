@@ -47,6 +47,9 @@
 		}
 
 	?>
+	<div class="mobile-warning">
+		<h2>The dashboard is not ready for mobile. Use at your own risk.</h2>
+	</div>
 
 	<div class="login-form" id="login">
 		<h1>Login</h1>
