@@ -47,9 +47,6 @@
 		}
 
 	?>
-	<div class="mobile-warning">
-		<h2>The dashboard is not ready for mobile. Use at your own risk.</h2>
-	</div>
 
 	<div class="login-form" id="login">
 		<h1>Login</h1>
@@ -73,10 +70,6 @@
 			<input type="submit" value="Sign Up">
 		</form>
 		<h4 class="link" onclick="swapForms()">Already a member?</h4>
-	</div>
-
-	<div class="center">
-		<h4 class="link" onclick="window.location.href='about'">About</h4>
 	</div>
 
 	<?= script("classifier.js") ?>

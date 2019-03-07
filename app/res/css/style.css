@@ -225,15 +225,15 @@ h4.link:hover {
 	cursor: pointer;
 }
 
-.mobile-warning {
-	text-align: center;
-	color: red;
-	display: none;
-}
-
 @media screen and (max-width: 640px) {
-	.mobile-warning {
-		display: block;
+	.login-form {
+		width: 95%;
+		margin-left: 2.5%;
+	}
+
+	.login-form input[type="text"], .login-form input[type="password"] {
+		width: 75%;
+		margin-left: 12.5%;
 	}
 }
 
@@ -334,6 +334,7 @@ input[type="text"], input[type="date"], input[type="password"] {
 	color: #222;
 	box-sizing: border-box;
 	margin-bottom: 10px;
+	width: 20%;
 
 	transition: border-color .25s;
 }
@@ -410,6 +411,49 @@ select:focus {
 	background-color: #24aacc;
 }
 
+@media screen and (max-width: 640px) {
+	.split-container {
+		display: block;
+		box-sizing: border-box;
+	}
+
+	.new-release-left {
+		float: none;
+		width: 100%;
+		min-height: inherit;
+		border-right: none;
+		padding-right: 10px;
+		font-size: 10pt;
+	}
+
+	.new-release-right {
+		float: none;
+		width: 100%;
+		min-height: inherit;
+		padding-left: 10px;
+	}
+
+	.new-release-left input[type="text"], .new-release-left input[type="date"] {
+		width: 60%;
+		float: right;
+	}
+
+	.new-release-right input[type="text"] {
+		width: 66%;
+	}
+
+	.new-release-left select {
+		width: 60%;
+		margin-bottom: 10px;
+		float: right;
+	}
+
+	.new-release-right select {
+		width: 23%;
+		margin-right: 1%;
+	}
+}
+
 .home-release-container {
 	margin-top: 10px;
 	margin-left: 10px;
@@ -448,6 +492,36 @@ select:focus {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 640px) {
+	.btn-large {
+		width: 50%;
+		margin-left: 25%;
+	}
+
+	.home-release-container {
+		display: inline-grid;
+		grid-template-columns: 50% 50%;
+		grid-template-rows: auto auto auto;
+		transform: translateX(-5px);
+	}
+
+	.home-release-col {
+		width: 100%;
+		height: auto;
+	}
+
+	.home-release-container img {
+		width: 80%;
+	}
+
+	.home-release-col .btn-large {
+		width: 90%;
+		text-align: center;
+		margin-left: 5%;
+		margin-top: 0;
+	}
 }
 
 .profile-container {
@@ -567,6 +641,7 @@ select:focus {
 	.profile-socials-container {
 		border-width: 2px;
 		padding-top: 0px;
+		transform: translateX(-5px);
 	}
 
 	.profile-socials-container img {
@@ -808,14 +883,43 @@ textarea:focus {
 	width: 50%;
 	margin-left: 25%;
 	display: flex;
+	box-sizing: border-box;
 }
 
 .social-container h4 {
 	width: 39%;
 	float: left;
+	padding-right: 25px;
 }
 
 .social-container input[type="text"] {
 	width: 60%;
 	float: right;
+}
+
+@media screen and (max-width: 640px) {
+	.social-container {
+		width: 95%;
+		margin-left: 2.5%;
+	}
+
+	.social-container h4 {
+		width: 24%;
+		float: left;
+		text-align: right;
+	}
+
+	.social-container input[type="text"] {
+		width: 75%;
+		float: right;
+	}
+
+	input[type="text"], input[type="password"] {
+		width: 75%;
+	}
+	
+	input[type="submit"] {
+		width: 75%;
+		margin-left: 12.5%;
+	}
 }

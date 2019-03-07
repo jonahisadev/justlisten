@@ -11,7 +11,7 @@
 	function login_guard() {
 		if (!Session::has("login_id")) {
 			Session::addFlash("expired");
-			View::redirect("/");
+			View::redirect("/dashboard");
 		}
 	}
 
@@ -20,6 +20,11 @@
 	//
 
 	Route::get("/", function() {
+		Session::init();
+		View::show("main");
+	});
+
+	Route::get("/dashboard", function() {
 		Session::init();
 
 		if (Session::has("login_id")) {
@@ -50,7 +55,7 @@
 	//	NEW RELEASE
 	//
 
-	Route::get("/new", function() {
+	Route::get("/dashboard/new", function() {
 		Session::init();
 		login_guard();
 
@@ -76,7 +81,7 @@
 		]);
 	});
 
-	Route::spost("/new/create", function() {
+	Route::spost("/dashboard/new/create", function() {
 		Session::init();
 		$user = User::get(Session::get("login_id"));
 
@@ -144,7 +149,7 @@
 			Session::addFlash("type", $type);
 			Session::addFlash("privacy", $privacy);
 			Session::addFlash("stores", $stores);
-			View::redirect("/new");
+			View::redirect("/dashboard/new");
 		}
 
 		// Generate short link
@@ -179,7 +184,7 @@
 		$link->save();
 
 		Session::addFlash("success_msg", "Release created!");
-		View::redirect("/");
+		View::redirect("/dashboard");
 	}, FALSE);
 
 	//
@@ -284,7 +289,7 @@
 		$R->save();
 
 		Session::addFlash("success_msg", "Release saved!");
-		View::redirect("/");
+		View::redirect("/dashboard");
 	}, FALSE);
 
 	//
@@ -307,7 +312,7 @@
 		if (empty($username) || empty($password)) {
 			Session::init();
 			Session::addFlash("empty");
-			View::redirect("/");
+			View::redirect("/dashboard");
 		}
 
 		$user = User::getBy("username", $username);
@@ -317,14 +322,14 @@
 			Session::init();
 			Session::addFlash("bad");
 			Session::addFlash("l_username", $username);
-			View::redirect("/");
+			View::redirect("/dashboard");
 		}
 
 		if ($user->verify != "0") {
 			Session::init();
 			Session::addFlash("bad_verify");
 			Session::addFlash("l_username", $username);
-			View::redirect("/");
+			View::redirect("/dashboard");
 		}
 
 		Session::init([
@@ -333,7 +338,7 @@
 			'login_name' => $user->name
 		]);
 		csrf_create();
-		View::redirect("/");
+		View::redirect("/dashboard");
 	});
 
 	//
@@ -388,7 +393,7 @@
 			Session::addFlash("name", $name);
 			Session::addFlash("email", $email);
 			Session::addFlash("beta_code", $beta_code);
-			View::redirect("/");
+			View::redirect("/dashboard");
 		}
 
 		// Hash password
@@ -413,7 +418,7 @@
 		Session::remove("flsh_signup");
 		Session::addFlash("verify");
 		$beta->delete();
-		View::redirect("/");
+		View::redirect("/dashboard");
 	});
 
 	//
@@ -703,11 +708,11 @@
 	//	SETTINGS
 	//
 
-	Route::get("/settings", function() {
+	Route::get("/dashboard/settings", function() {
 		View::show("settings");
 	});
 
-	Route::spost("/settings/password", function($old, $new1, $new2) {
+	Route::spost("/dashboard/settings/password", function($old, $new1, $new2) {
 		$user = User::get(Session::get("login_id"));
 		if ($user->id == NULL) {
 			View::show("error", [
@@ -737,7 +742,7 @@
 		// There was error
 		if ($error) {
 			Session::addFlash("error", $error);
-			View::redirect("/settings");
+			View::redirect("/dashboard/settings");
 			return;
 		}
 
@@ -747,7 +752,7 @@
 		$user->save();
 
 		Session::addFlash("success", "Successfully changed password");
-		View::redirect("/settings");
+		View::redirect("/dashboard/settings");
 	});
 
 	//
@@ -774,7 +779,7 @@
 	Route::get("/verify_account/{code}", function($code) {
 		$user = User::getBy("verify", $code);
 		if ($user->id == NULL) {
-			View::redirect("/");
+			View::redirect("/dashboard");
 		}
 
 		$user->verify = "0";
@@ -782,7 +787,7 @@
 
 		Session::init();
 		Session::addFlash("success");
-		View::redirect("/");
+		View::redirect("/dashboard");
 	});
 
 	//

@@ -10,16 +10,16 @@
 		<p><?= $R->getStats()[Stat::CLICKS] ?> clicks</p>
 	</div>
 	<div class="home-release-col">
-		<a class="btn-large" href="a/<?= $username ?>/<?= $R->url ?>">View</a>
+		<a class="btn-large" href="../a/<?= $username ?>/<?= $R->url ?>">View</a>
 	</div>
 	<div class="home-release-col">
-		<a class="btn-large" href="a/<?= $username ?>/<?= $R->url ?>/edit">Edit</a>
+		<a class="btn-large" href="../a/<?= $username ?>/<?= $R->url ?>/edit">Edit</a>
 	</div>
 	<div class="home-release-col">
 		<a class="btn-large" onclick="showShare(<?=$i?>);">Share</a>
 	</div>
 	<div class="home-release-col">
-		<a class="btn-large" href="a/<?= $username ?>/<?= $R->url ?>/stats">Stats</a>
+		<a class="btn-large" href="../a/<?= $username ?>/<?= $R->url ?>/stats">Stats</a>
 	</div>
 	<div class="modal" id="share-modal-<?=$i?>">
 		<div class="modal-content center">

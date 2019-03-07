@@ -16,8 +16,8 @@
 				$attr .= $key . '="' . $val . '" ';
 			}
 		}
-
-		echo('<img src="' . BASEURL . '/app/res/img/' . $name . '" ' . $attr . '></img>');
+		
+		echo('<img src="' . INDEX . '/app/res/img/' . $name . '" ' . $attr . '></img>');
 	}
 
 ?>

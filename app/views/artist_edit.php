@@ -55,7 +55,7 @@
 			<br><br>
 			
 			<?= csrf_field() ?>
-			<input class="btn-large" type="submit" value="Edit" />
+			<input class="btn-large" type="submit" value="Save" />
 		</form>
 	</div>
 
