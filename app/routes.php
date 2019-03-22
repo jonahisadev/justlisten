@@ -111,12 +111,12 @@
 			$stores[] = [$_POST['store-type-'.$i], filter_var($_POST['store-link-'.$i], FILTER_SANITIZE_URL)];
 
 			if (!Store::validURL($stores[$i-1][0], $stores[$i-1][1])) {
-				$error = "Please enter a valid store URL";
+				$error = "Please enter a valid store URL: ";
 			}
 		}
 
 		// Check if album art was uploaded
-		if (!empty($_FILES['art']['tmp_name'])) {
+		if (!empty($_FILES['art']['tmp_name']) || isset($_POST['ajax_art'])) {
 			// Save art
 			$art = substr(str_shuffle(md5(microtime())), 0, 32);
 			$filename = dirname(__FILE__) . "/res/img/user_upload/" . $art . ".jpg";
@@ -128,12 +128,25 @@
 				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $art . ".jpg";
 			}
 
-			// Check art
-			$art_check = Art::meetsRequirements($_FILES['art']);
-			if (empty($art_check)) {
-				move_uploaded_file($_FILES['art']['tmp_name'], $filename);
-			} else {
-				$error = $art_check;
+			// AJAX art
+			if (isset($_POST['ajax_art'])) {
+				$ajax_url = filter_var($_POST['ajax_art'], FILTER_SANITIZE_URL);
+				copy($ajax_url, $filename);
+				$art_check = Art::meetsRequirements($filename);
+				if (!empty($art_check)) {
+					unlink($filename);
+					$error = $art_check;
+				}
+			} 
+			
+			// Normal art
+			else {
+				$art_check = Art::meetsRequirements($_FILES['art']['tmp_name']);
+				if (empty($art_check)) {
+					move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+				} else {
+					$error = $art_check;
+				}
 			}
 		} else {
 			$art = "../default";
@@ -141,6 +154,12 @@
 
 		// Check error
 		if ($error) {
+			// If there's an AJAX call, return error
+			if (isset($_POST['ajax'])) {
+				echo(' { "status": "error", "msg": "' . $error . '" } ');
+				return;
+			}
+
 			Session::addFlash("error", $error);
 			Session::addFlash("title", $title);
 			Session::addFlash("url", $url);
@@ -182,6 +201,12 @@
 			"url" => $user->username . "/" . $url
 		]);
 		$link->save();
+
+		// If there's an AJAX call, return success
+		if (isset($_POST['ajax'])) {
+			echo(' { "status": "success" } ');
+			return;
+		}
 
 		Session::addFlash("success_msg", "Release created!");
 		View::redirect("/dashboard");
@@ -701,6 +726,52 @@
 
 		View::show("api/release", [
 			"r_id" => $release->id
+		]);
+	});
+
+	//
+	//	SPOTIFY ONBOARDING
+	//
+
+	Route::get("/dashboard/import", function() {
+		login_guard();
+		$user = User::get(Session::get("login_id"));
+		if (count($user->getReleases()) != 0) {
+			Session::addFlash("error_msg", "You've already imported from Spotify");
+			View::redirect("/dashboard");
+		}
+
+		$url = "https://accounts.spotify.com/api/token";
+		$data = [
+			"grant_type" => "client_credentials"
+		];
+
+		$API = parse_ini_file(dirname(__FILE__) . "/res/config/api.ini", true);
+		if ($API === FALSE) {
+			die("Couldn't load INI file");
+		}
+
+		define("CLIENT_ID", $API['spotify']['client_id']);
+		define("CLIENT_SECRET", $API['spotify']['client_secret']);
+
+		$auth_basic = base64_encode(CLIENT_ID . ":" . CLIENT_SECRET);
+
+		$options = [
+			"http" => [
+				"header" => "Content-Type: application/x-www-form-urlencoded;\r\nAuthorization: Basic " . $auth_basic . "\r\n",
+				"method" => "POST",
+				"content" => http_build_query($data)
+			]
+		];
+
+		$ctx = stream_context_create($options);
+		$res = file_get_contents($url, false, $ctx);
+
+		$access_info = json_decode($res);
+		$access = $access_info->access_token;
+
+		View::show("onboard", [
+			"ACCESS" => $access
 		]);
 	});
 

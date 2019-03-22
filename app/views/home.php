@@ -18,6 +18,8 @@
 		<?php
 			if (Session::hasFlash("success_msg")) {
 				flash_message(FLASH_GREEN, Session::getFlash("success_msg"));
+			} else if (Session::hasFlash("error_msg")) {
+				flash_message(FLASH_RED, Session::getFlash("error_msg"));
 			}
 		?>
 		<h1>Welcome <?= $name ?>!</h1>
@@ -25,6 +27,9 @@
 
 	<div class="center">
 		<a class="btn-large" href="new">+ New Release</a>
+		<?php if (count($user->getReleases()) == 0) { ?>
+		<a class="btn-large btn-black" href="import"><?= image("spotify.png", ["class" => "spotify-img"]) ?>Import from Spotify</a>
+		<?php } ?>
 	</div>
 
 	<div class="main-content">

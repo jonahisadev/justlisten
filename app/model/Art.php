@@ -4,7 +4,7 @@ class Art {
 
 	public static function meetsRequirements($file) {
 		// Is this an image?
-		list($width, $height, $type, $attr) = getimagesize($file['tmp_name']);
+		list($width, $height, $type, $attr) = getimagesize($file);
 
 		// Check for JPEG
 		// if (mime_content_type($file['tmp_name']) != "image/jpeg") {

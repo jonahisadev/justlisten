@@ -225,6 +225,10 @@ h4.link:hover {
 	cursor: pointer;
 }
 
+.btn-large:focus {
+	outline: none;
+}
+
 @media screen and (max-width: 640px) {
 	.login-form {
 		width: 95%;
@@ -898,6 +902,15 @@ textarea:focus {
 }
 
 @media screen and (max-width: 640px) {
+	input[type="text"], input[type="password"] {
+		width: 75%;
+	}
+
+	input[type="submit"] {
+		width: 75%;
+		margin-left: 12.5%;
+	}
+
 	.social-container {
 		width: 95%;
 		margin-left: 2.5%;
@@ -914,12 +927,48 @@ textarea:focus {
 		float: right;
 	}
 
-	input[type="text"], input[type="password"] {
+	.login-form input[type="submit"] {
 		width: 75%;
+		margin-left: 0;
 	}
-	
-	input[type="submit"] {
-		width: 75%;
-		margin-left: 12.5%;
+}
+
+#spotify-releases {
+	display: grid;
+	/* grid-template-columns: 25% 25% 25% 25%; */
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	/* grid-column-gap: 10px; */
+	justify-items: center;
+}
+
+#spotify-releases .release {
+	text-align: center;
+}
+
+.btn-black {
+	background-color: #000;
+}
+
+.btn-black:hover {
+	background-color: #181818;
+}
+
+.btn-black:focus {
+	background-color: #181818;
+}
+
+.spotify-img {
+	width: 27px;
+	margin-right: 10px;
+	float: left;
+}
+
+@media screen and (max-width: 640px) {
+	#spotify-releases {
+		grid-template-columns: 1fr;
+	}
+
+	#artist_id {
+		width: 95% !important;
 	}
 }

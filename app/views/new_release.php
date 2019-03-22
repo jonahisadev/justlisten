@@ -31,7 +31,7 @@
 	<?php 
 	
 		$action = "create";
-		include 'include/release_form.php';
+		include 'include/_release_form.php';
 	
 	?>
 

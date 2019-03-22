@@ -30,7 +30,7 @@ function POST(url, data, callback) {
 	var content = "";
 	for (var prop in data) {
 		if (data.hasOwnProperty(prop)) {
-			content += prop + "=" + data[prop] + "&";
+			content += prop + "=" + encodeURI(data[prop]) + "&";
 		}
 	}
 	content = content.slice(0, -1);
