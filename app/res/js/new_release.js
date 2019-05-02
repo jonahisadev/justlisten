@@ -1,10 +1,11 @@
+var STORE_COUNT = 0;
+
+//
+// FILE HANDLER
+//
+
 var selector = document.getElementById('art');
 var image = document.getElementById("art-img");
-var counter = document.getElementById("store-count");
-var title = document.getElementById("title");
-var url = document.getElementById("url");
-
-var stores = 1;
 
 function selectFile() {
 	selector.click();
@@ -42,50 +43,165 @@ function handleFile() {
 		reader.readAsDataURL(file);
 }
 
-function setStoreData(store, index) {
-	store.id = "store-" + index;
-	store.children[0].id = "store-type-" + index;
-	store.children[0].name = "store-type-" + index;
-	store.children[1].id = "store-link-" + index;
-	store.children[1].name = "store-link-" + index;
-	store.children[2].setAttribute("onclick", "removeStoreLink(" + index + ")");
+function validateURL(id, type, url) {
+	var data = {
+		"type": type,
+		"url": url
+	};
+
+	_().ajax(ROOT + "/api/validate_store/", {
+		method: "POST",
+		async: true,
+		contentType: "application/x-www-form-urlencoded",
+		success: (msg) => {
+			if (msg == 0) {
+				_("#store-link-" + id).addClass("invalid").removeClass("valid");
+			}
+			else {
+				_("#store-link-" + id).addClass("valid").removeClass("invalid");
+			}
+		},
+		data: data
+	});
 }
 
-function addStoreLink() {
-	var lastStore = document.getElementById("store-" + stores);
-	var plus = document.getElementById("plus");
-	var currentStore = lastStore.cloneNode(true);
+function addStore() {
+	STORE_COUNT++;
+	var count = STORE_COUNT;
+	
+	var store_container = _().create("div", { className: "store", id: "store-" + count });
+	var arrow_right = _().create("div", { className: "arrow-right" });
+	store_container.append(arrow_right);
+	var store_label = _().create("h2", { innerText: "Store", id: "store-header-" + count });
+	store_container.append(store_label);
 
-	stores++;
-	setStoreData(currentStore, stores);
+	var store_nav = _().create("div", { className: "store-nav" });
+	store_nav.append(_().create("div", { className: "arrow-up" }));
+	store_nav.append(_().create("div", { className: "arrow-down" }));
+	store_container.append(store_nav);
 
-	counter.value = parseInt(stores);
+	var store_data = _().create("div", { className: "store-data" });
+	var store_type = _().create("select", {
+		className: "store-type",
+		name: "store-type-" + count,
+		id: "store-type-" + count,
+		innerHTML: STORES
+	});
+	store_data.append(store_type);
+	store_data.append(_().create("input", {
+		className: "store-link",
+		name: "store-link-" + count,
+		id: "store-link-" + count,
+		type: "text"
+	}));
+	var store_remove = _().create("div", {
+		className: "store-remove",
+		id: "store-remove-" + count,
+		innerHTML: "&times;"
+	});
+	store_data.append(store_remove);
+	store_container.append(store_data);
 
-	plus.parentNode.insertBefore(currentStore, plus);
-	var link = document.getElementById("store-link-" + stores);
-	link.value = "";
-	removeClass(link, "valid");
-	removeClass(link, "invalid");
-	setupValidation(link);
+	_("#plus").before(store_container);
+	_("#store-count").set({ value: STORE_COUNT });
+	setEventListeners(count);
 }
 
-function removeStoreLink(id) {
-	if (stores == 1) return;
+function swapStore(a, b) {
+	var store_a = _("#store-" + a);
+	var store_b = _("#store-" + b);
 
-	// Remove store
-	var store = document.getElementById("store-" + id);
-	store.parentNode.removeChild(store);
-
-	// Update stores
-	for (var i = id+1; i <= stores; i++) {
-		setStoreData(document.getElementById("store-" + i), i-1);
+	// Down
+	if (a < b) {
+		var a_copy = new DOMElement(store_a.raw.cloneNode(true));
+		var type_index = _("#store-type-" + a).raw.selectedIndex;
+		store_a.remove();
+		setStoreID(b, 0);
+		store_b.after(a_copy);
+		setStoreID(a, b);
+		setStoreID(0, a);
+		_("#store-type-" + b).raw.selectedIndex = type_index;
+	}
+	// Up
+	else {
+		var b_copy = new DOMElement(store_b.raw.cloneNode(true));
+		var type_index = _("#store-type-" + b).raw.selectedIndex;
+		store_b.remove();
+		setStoreID(a, 0);
+		store_a.after(b_copy);
+		setStoreID(b, a);
+		setStoreID(0, b);
+		_("#store-type-" + a).raw.selectedIndex = type_index;
 	}
 
-	// Update store counter
-	stores--;
-	counter.value = parseInt(stores);
+	setEventListeners(a);
+	setEventListeners(b);
+}
 
-	// TODO: Shift everything below it
+function removeStore(id) {
+	if (STORE_COUNT > 1) {
+		_("#store-" + id).remove();
+		STORE_COUNT--;
+		_("#store-count").set({ value: STORE_COUNT });
+	}
+}
+
+function setStoreID(old, id) {
+	_("#store-" + old).id = "store-" + id;
+
+	_("#store-link-" + old).set({
+		id: "store-link-" + id,
+		name: "store-link-" + id
+	});
+
+	_("#store-type-" + old).set({
+		id: "store-type-" + id,
+		name: "store-type-" + id
+	});
+
+	_("#store-remove-" + old).id = "store-remove-" + id;
+}
+
+function setEventListeners(id) {
+	var store = _("#store-" + id);
+	var arrow_right = new DOMElement(store.raw.children[0]);
+	var store_data = new DOMElement(store.raw.children[3]);
+	var store_type = new DOMElement(store_data.raw.children[0]);
+	var store_link = new DOMElement(store_data.raw.children[1]);
+	var store_label = new DOMElement(store.raw.children[1]);
+	var arrow_up = new DOMElement(store.raw.children[2].children[0]);
+	var arrow_down = new DOMElement(store.raw.children[2].children[1]);
+
+	arrow_right.on("click", () => {
+		arrow_right.toggleClass("down");
+		store.toggleClass("open");
+		store_data.toggleClass("show");
+	});
+
+	_("#store-remove-" + id).on("click", () => {
+		removeStore(id);
+	});
+
+	store_type.on("change", () => {
+		store_label.set({ innerText: store_type.raw.options[store_type.val()].innerText });
+		validateURL(id, store_type.raw.selectedIndex, store_link.val());
+	});
+
+	store_link.on("blur", () => {
+		validateURL(id, store_type.raw.selectedIndex, store_link.val());
+	});
+
+	arrow_up.on("click", () => {
+		if (id > 1) {
+			swapStore(id, id - 1)
+		}
+	});
+
+	arrow_down.on("click", () => {
+		if (id < STORE_COUNT) {
+			swapStore(id, id + 1);
+		}
+	});
 }
 
 function cleanseURL(url) {
@@ -101,66 +217,42 @@ function cleanseURL(url) {
 
 function addStores(stores) {
 	for (var i = 0; i < stores.length; i++) {
-		if (i >= 1) addStoreLink();
+		addStore();
 
-		document.getElementById("store-type-" + (i + 1)).selectedIndex = stores[i].name;
-		document.getElementById("store-link-" + (i + 1)).value = stores[i].link;
+		// document.getElementById("store-type-" + (i + 1)).selectedIndex = stores[i].name;
+		// document.getElementById("store-link-" + (i + 1)).value = stores[i].link;
+
+		var store_type = _("#store-type-" + (i + 1));
+		store_type.raw.selectedIndex = stores[i].name;
+		_("#store-link-" + (i + 1)).raw.value = stores[i].link;
+		_("#store-header-" + (i + 1)).set({ innerText: store_type.raw.options[store_type.val()].innerText });
+		validateURL((i + 1), stores[i].name, stores[i].link)
 	}
 }
 
 function backendPersistStores(stores, id) {
 	addStores(JSON.parse(stores).stores);
-	Array.from(document.getElementsByClassName("store-link")).forEach((link) => {
-		var parent = link.parentElement;
-		validateURL(link, parent.children[0].selectedIndex, parent.children[1].value);
-	});
-	var script = document.getElementById("backendPersist");
-	script.parentElement.removeChild(script);
+	// Array.from(document.getElementsByClassName("store-link")).forEach((link) => {
+	// 	var parent = link.parentElement;
+	// 	validateURL(link, parent.children[0].selectedIndex, parent.children[1].value);
+	// });
+
+	_("#backendPersist").remove();
 
 	if (id >= 0) {
 		var rel = new Release(id, () => {
-			document.getElementById("art-img").src = ROOT + "/app/res/img/user_upload/" + rel.art + ".jpg";
+			document.getElementById("art-img").src = "https://assets.justlisten.me/" + rel.art + ".jpg";
 		});
 	}
 }
 
-function validateURL(link, type, url) {
-	POST("/api/validate_store", {
-		"type": type,
-		"url": url 
-	}, (data) => {
-		if (data == 0) {
-			addClass(link, "invalid")
-			removeClass(link, "valid");
-		} else {
-			addClass(link, "valid");
-			removeClass(link, "invalid");
-		}
-	});
-}
-
-function setupValidation(link) {
-	var parent = link.parentElement;
-	link.onblur = () => {
-		validateURL(link, parent.children[0].selectedIndex, parent.children[1].value);
-	};
-	parent.children[0].onchange = () => {
-		validateURL(link, parent.children[0].selectedIndex, parent.children[1].value);
-	};
-}
-
-Array.from(document.getElementsByClassName("store-link")).forEach((link) => {
-	setupValidation(link);
-});
-
 selector.addEventListener("change", handleFile, false);
-
-title.addEventListener("keyup", (e) => {
-	var mod = title.value;
+_("#title").on("keyup", () => {
+	var mod = _("#title").val();
 
 	mod = mod.split(' ').join('-');
 	mod = cleanseURL(mod);
 	mod = mod.toLowerCase();
 
-	url.value = mod;
-}, false);
+	_("#url").raw.value = mod;
+});

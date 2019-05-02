@@ -134,16 +134,20 @@
 				copy($ajax_url, $filename);
 				$art_check = Art::meetsRequirements($filename);
 				if (!empty($art_check)) {
-					unlink($filename);
+					// unlink($filename);
 					$error = $art_check;
 				}
+				Art::uploadToS3($filename, $art);
+				unlink($filename);
 			} 
 			
 			// Normal art
 			else {
 				$art_check = Art::meetsRequirements($_FILES['art']['tmp_name']);
 				if (empty($art_check)) {
-					move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+					// move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+					Art::uploadToS3($_FILES['art']['tmp_name'], $art);
+					// TODO: error check this
 				} else {
 					$error = $art_check;
 				}
@@ -265,11 +269,12 @@
 		// Upload art
 		if (!empty($_FILES['art']['tmp_name'])) {
 			// Check art
-			$art_check = Art::meetsRequirements($_FILES['art']);
+			$art_check = Art::meetsRequirements($_FILES['art']['tmp_name']);
 			if (empty($art_check)) {
-				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
+				// $filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
 				if ($R->art != "../default") {
-					unlink($filename);
+					// unlink($filename);
+					Art::removeFromS3($R->art);
 				}
 
 				$R->art = substr(str_shuffle(md5(microtime())), 0, 32);
@@ -278,8 +283,8 @@
 					$R->art = substr(str_shuffle(md5(microtime())), 0, 32);
 				}
 
-				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
-				move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+				// $filename = dirname(__FILE__) . "/res/img/user_upload/" . $R->art . ".jpg";
+				Art::uploadToS3($_FILES['art']['tmp_name'], $R->art);
 			} else {
 				$error = $art_check;
 			}
@@ -592,17 +597,22 @@
 	Route::spost("/a/{username}/{url}/delete", function($username, $url) {
 		Session::init();
 		$user = User::getBy("username", $username);
+		header("Content-Type: application/json");
 		if ($user->id == NULL) {
-			View::show("error", [
-				"error" => "That user doesn't exist"
-			]);
+			// View::show("error", [
+			// 	"error" => "That user doesn't exist"
+			// ]);
+			// return;
+			echo('{ "status": "error", "msg": "That user doesn\'t exist" }');
 			return;
 		}
 
 		if ($user->id != Session::get("login_id")) {
-			View::show("error", [
-				"error" => "You don't have access to this page!"
-			]);
+		// View::show("error", [
+		// 	"error" => "You don't have access to this page!"
+		// ]);
+		// return;
+			echo ('{ "status": "error", "msg": "You don\'t have access to this page!" }');
 			return;
 		}
 
@@ -663,16 +673,14 @@
 
 		// Profile picture
 		if (!empty($_FILES['art']['tmp_name'])) {
-			$img_check = Art::meetsRequirements($_FILES['art']);
+			$img_check = Art::meetsRequirements($_FILES['art']['tmp_name']);
 			if (empty($img_check)) {
 				if ($user->profile != "profile") {
-					$filename = dirname(__FILE__) . "/res/img/user_upload/" . $user->profile . ".jpg";
-					unlink($filename);
+					Art::removeFromS3($user->profile);
 				}
 
 				$user->profile = substr(str_shuffle(md5(microtime())), 0, 32);
-				$filename = dirname(__FILE__) . "/res/img/user_upload/" . $user->profile . ".jpg";
-				move_uploaded_file($_FILES['art']['tmp_name'], $filename);
+				Art::uploadToS3($_FILES['art']['tmp_name'], $user->profile);
 			} else {
 				Session::addFlash("error", $img_check);
 				View::redirect("/a/" . $username . "/edit");
@@ -704,6 +712,7 @@
 	Route::get("/api/release/{id}", function($id) {
 		Session::init();
 		$release = Rel::get($id);
+		header("Content-Type: application/json");
 
 		if ($release->id == NULL) {
 			echo('{ "error": "No such release" }');

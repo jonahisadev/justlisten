@@ -258,6 +258,7 @@ h4.link:hover {
 	min-height: inherit;
 	padding: 10px;
 	display: flex;
+	box-sizing: border-box;
 }
 
 .new-release-left {
@@ -273,6 +274,7 @@ h4.link:hover {
 	width: 50%;
 	min-height: inherit;
 	padding-left: 10px;
+	box-sizing: border-box;
 }
 
 .split-left {
@@ -837,6 +839,10 @@ select:focus {
 	background-color: #E07B7B;
 }
 
+.flash-msg.gray {
+	background-color: #BBB;
+}
+
 .flash-x {
 	float: left;
 	cursor: pointer;
@@ -846,6 +852,131 @@ select:focus {
 
 .flash-x:hover {
 	color: #444;
+}
+
+.store {
+	width: 100%;
+	height: 50px;
+	background-color: #888;
+	margin-bottom: 10px;
+	border-radius: 10px;
+	box-sizing: border-box;
+	box-shadow: 0px 0px 10px #333;
+
+	transition: height .125s;
+}
+
+.store.open {
+	height: 110px;
+}
+
+.arrow-right {
+	width: 0;
+	height: 0;
+	border-top: 15px solid transparent;
+	border-bottom: 15px solid transparent;
+	border-left: 15px solid #DDD;
+	margin-left: 10px;
+	transform: translateY(10px);
+	display: inline-block;
+	user-select: none;
+
+	transition: transform .125s, border-left-color .25s;
+}
+
+.arrow-right:hover {
+	cursor: pointer;
+	border-left-color: #FFF;
+}
+
+.arrow-right.down {
+	margin-left: 15px;
+	border-left-color: #FFF;
+	transform: rotateZ(90deg) translateX(12.5px);
+}
+
+.store h2 {
+	margin-left: 10px;
+	font-size: 20pt;
+	display: inline;
+	user-select: none;
+	vertical-align: middle;
+}
+
+.store-nav {
+	float: right;
+	margin-right: 10px;
+	margin-top: 7px;
+}
+
+.store-data {
+	margin-top: 10px;
+	padding-left: 10px;
+	opacity: 0;
+	display: none;
+	transition: opacity .0;
+}
+
+.store-data.show {
+	opacity: 1;
+	display: block;
+	transition: opacity .25s;
+}
+
+.store-data select {
+	margin-top: 8px;
+}
+
+.store-data input[type="text"] {
+	/* float: right; */
+	margin-right: 10px;
+	margin-top: 5px;
+}
+
+.arrow-up {
+	width: 0;
+	height: 0;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-bottom: 15px solid #DDD;
+	margin-bottom: 7.5px;
+	transition: border-bottom-color .25s;
+}
+
+.arrow-down {
+	width: 0;
+	height: 0;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-top: 15px solid #DDD;
+	transition: border-top-color .25s;
+}
+
+.arrow-up:hover, .arrow-down:hover {
+	cursor: pointer;
+}
+
+.arrow-up:hover {
+	border-bottom-color: white;
+}
+
+.arrow-down:hover {
+	border-top-color: white;
+}
+
+.store-remove {
+	color: #DDD;
+	font-size: 55px;
+	float: right;
+	display: inline-block;
+	transform: translate(-15px, -7px);
+
+	transition: color .25s;
+}
+
+.store-remove:hover {
+	color: #FFF;
+	cursor: pointer;
 }
 
 .store-link {
@@ -971,4 +1102,8 @@ textarea:focus {
 	#artist_id {
 		width: 95% !important;
 	}
+}
+
+@media screen and (max-width: 640px) {
+	
 }

@@ -20,9 +20,7 @@
 	<?php include 'include/header.php'; ?>
 	<h1 class="center"><u><?= $R->title ?></u></h1>
 	<div class="center">
-		<?= image("user_upload/" . $R->art . ".jpg", [
-			"width" => "200", "class" => "stat-img"
-		]) ?>
+		<img src="<?= CDN . $R->art ?>.jpg" width="200" class="stat-img">
 	</div>
 
 	<div class="main-content">

@@ -40,6 +40,12 @@
 	$_DB = db_initialize($config['database']);
 	$_DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+	if ($config['app']['composer']) {
+		require 'vendor/autoload.php';
+	}
+
+	define("CDN", $config['cdn']['url']);
+
 	// Required functions
 	require_once "vv/session.php";
 	require_once "vv/security.php";

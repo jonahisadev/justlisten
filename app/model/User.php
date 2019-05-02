@@ -54,7 +54,8 @@ class User extends DAO {
 			if ($rels[$i] == $id) {
 				$R = Rel::get($rels[$i]);
 				if ($R->art != "../default") {
-					unlink($base . "/res/img/user_upload/" . $R->art . ".jpg");
+					// unlink($base . "/res/img/user_upload/" . $R->art . ".jpg");
+					Art::removeFromS3($R->art);
 				}
 				
 				// Remove short link
@@ -62,6 +63,8 @@ class User extends DAO {
 				$L->delete();
 
 				array_splice($rels, $i, 1);
+
+				$R->delete();
 				break;
 			}
 		}

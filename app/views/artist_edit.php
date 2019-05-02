@@ -29,7 +29,7 @@
 
 			<h4 style="margin-bottom: 5px;">Profile Picture</h4>
 			<h4 class="link" onclick="showModal('art-modal')">Art Requirements</h4><br>
-			<?= image("user_upload/" . $A->profile . ".jpg", ["id" => "art-img", "width" => "200", "class" => "img-upload", "onclick" => "selectFile()"]) ?>
+			<img src="<?= CDN . $A->profile ?>.jpg" id="art-img" width="200" class="img-upload" onclick="selectFile()">
 			<input type="file" name="art" id="art" accept="image/jpeg" hidden><br><br>
 
 			<h4 style="margin-bottom: 5px;">Bio</h4>

@@ -128,3 +128,7 @@ h1 a {
 	color: #EEE;
 	text-decoration: underline dotted;
 }
+
+.center {
+	text-align: center;
+}
