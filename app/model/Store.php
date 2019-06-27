@@ -19,11 +19,11 @@ class Store {
 				break;
 			}
 			case Store::APPLE: {
-				$reg = "/^https:\/\/itunes\.apple\.com\/.+$/";
+				$reg = "/^https:\/\/(.+\.)?apple\.com\/.+$/";
 				break;
 			}
 			case Store::ITUNES: {
-				$reg = "/^https:\/\/(.+\.)?itunes\.apple\.com\/.+$/";
+				$reg = "/^https:\/\/(.+\.)?apple\.com\/.+$/";
 				break;
 			}
 			case Store::SOUNDCLOUD: {

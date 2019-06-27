@@ -55,6 +55,8 @@
         </div>
     </div>
 
+    <?php include 'include/footer.php'; ?>
+
     <?= csrf_field() ?>
     <?= script("rest.js") ?>
     <?= script("home.js") ?>

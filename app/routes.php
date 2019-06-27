@@ -412,10 +412,12 @@
 		}
 
 		// Check for a beta code
-		$beta = Beta::get($beta_code);
-		if ($beta->code == NULL) {
-			Session::addFlash("nobeta");
-			$error = TRUE;
+		if (Mode::isProduction()) {
+			$beta = Beta::get($beta_code);
+			if ($beta->code == NULL) {
+				Session::addFlash("nobeta");
+				$error = TRUE;
+			}
 		}
 
 		if ($error) {
@@ -430,7 +432,11 @@
 		$password = password_hash($pass1, PASSWORD_ARGON2I);
 
 		// Create verification code
-		$verify = substr(str_shuffle(md5(microtime())), 0, 32);
+		if (Mode::isProduction()) {
+			$verify = substr(str_shuffle(md5(microtime())), 0, 32);
+		} else {
+			$verify = "0";
+		}
 
 		// Create User
 		$user = User::new([
@@ -442,12 +448,16 @@
 		]);
 		
 		// Send verification email
-		Email::sendVerification($email, $name, $verify);
+		if (Mode::isProduction()) {
+			Email::sendVerification($email, $name, $verify);
+		}
 
 		// Other stuff
 		Session::remove("flsh_signup");
 		Session::addFlash("verify");
-		$beta->delete();
+		if (Mode::isProduction()) {
+			$beta->delete();
+		}
 		View::redirect("/dashboard");
 	});
 
