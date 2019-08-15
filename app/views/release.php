@@ -33,7 +33,7 @@ include 'include/rest.php';
 
 <body>
     <div class="content">
-        <h1 class="title"><?= $R->title ?> by <a href="https://jstlstn.me/a/<?= $A->username ?>"><?= $A->name ?></a></h1>
+        <h1 class="title"><?= $R->title ?> by <a href="https://justlisten.me/a/<?= $A->username ?>"><?= $A->name ?></a></h1>
 
         <div class="release-container">
             <img src="<?= CDN . $R->art ?>.jpg">
