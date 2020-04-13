@@ -1131,3 +1131,19 @@ textarea:focus {
 .footer-links h5 {
 	display: inline;
 }
+
+#progress {
+	margin-top: 15px;
+	width: 100%;
+	background-color: #6F6F6F;
+	border-radius: 10px;
+}
+
+#pbar {
+	width: 0%;
+	height: 20px;
+	background-color:#25e67b;
+	border-radius: 10px;
+
+	transition: width 0.5s;
+}

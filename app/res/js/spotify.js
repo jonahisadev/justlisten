@@ -154,6 +154,7 @@ function add_album_dom(album) {
 }
 
 function save_all_albums() {
+	start_progress();
 	for (var i = 0; i < RELEASE_COUNT; i++) {
 		save_album(i);
 	}
@@ -232,9 +233,19 @@ function cleanseURL(url) {
 	return str;
 }
 
-setInterval(() => {
-	if (SUCCESS_COUNT == RELEASE_COUNT) {
-		window.alert("Successfully imported releases!");
-		window.location.href = ROOT + "/dashboard";
+function start_progress() {
+	console.log("Starting progress bar...");
+	var elem = document.getElementById("pbar");
+	var width = 0;
+	var id = setInterval(frame, 10);
+
+	function frame() {
+		if (width >= 100) {
+			clearInterval(id);
+			window.location.href = ROOT + "/dashboard";
+		} else {
+			width = ((SUCCESS_COUNT / RELEASE_COUNT) * 100);
+			elem.style.width = width + "%";
+		}
 	}
-}, 500);
+}

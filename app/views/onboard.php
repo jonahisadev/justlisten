@@ -29,6 +29,11 @@
         <div id="spotify-releases"></div>
         <div id="spotify-save" class="center" style="margin-top: 15px;" hidden>
             <input id="privacy-check" type="checkbox">Make releases private<br>
+
+            <div id="progress">
+                <div id="pbar"></div>
+            </div>
+
             <input id="save-btn" class="center btn-large" value="Save" style="margin-top: 15px;">
         </div>
     </div>
