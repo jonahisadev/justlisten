@@ -41,7 +41,22 @@
 		$obj = $r->newInstance();
 		$obj->model();
 		$obj->create($class);
+	}
 
+	else if ($argv[1] == "gentablesql") {
+		$class = convert_name($argv[2]);
+
+		//$obj = new ReflectionClass(__DIRNAME__ . "/../app/model/" . $class);
+		include __DIR__ . "/../vv/dao.php";
+		include __DIR__ . "/../vv/db.php";
+		include __DIR__ . '/../app/model/' . $class . ".php";
+
+		$r = new ReflectionClass($class);
+		$obj = $r->newInstance();
+		$obj->model();
+		$sql = $obj->create_sql($class);
+
+		echo($sql . ";\n");
 	}
 
 ?>

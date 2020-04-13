@@ -177,9 +177,10 @@ function save_album(index) {
 	};
 
 	POST('/dashboard/new/create', params, (res) => {
+		console.log(res);
 		var data = JSON.parse(res);
 		if (data.status == "error") {
-			window.alert("Release " + index + ": " + data.msg);
+			// window.alert("Release " + index + ": " + data.msg);
 			console.log(data);
 		} else if (data.status == "success") {
 			// TODO: Get rid of this, we don't need it

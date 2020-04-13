@@ -22,7 +22,7 @@
 			} else if (Session::hasFlash("bad")) {
 				flash_message(FLASH_RED, "Incorrect username or password");
 			} else if (Session::hasFlash("verify")) {
-				flash_message(FLASH_GREEN, "Success! Please verify your account!");
+				flash_message(FLASH_GREEN, "I disabled email verification, just log in");
 			} else if (Session::hasFlash("bad_verify")) {
 				flash_message(FLASH_RED, "Please verify your account first!");
 			}
@@ -66,7 +66,7 @@
 			<input type="text" id="email" name="email" placeholder="Email" value="<?=$email?>"/>
 			<input type="password" id="pass1" name="pass1" placeholder="Password" />
 			<input type="password" id="pass2" name="pass2" placeholder="Confirm Password" />
-			<input type="text" name="beta_code" id="beta_code" placeholder="Beta Code" value="<?=$beta_code?>" />
+			<!-- <input type="text" name="beta_code" id="beta_code" placeholder="Beta Code" value="<?=$beta_code?>" /> -->
 			<input type="submit" value="Sign Up">
 		</form>
 		<h4 class="link" onclick="swapForms()">Already a member?</h4>

@@ -62,12 +62,6 @@ class RouteData {
 
 				// 6. Remove double forward slashes
 				$url = str_replace("\\\\", "\\", $url);
-
-				// 7. If the variable is literally at the start
-				//    of the URL, add a forward slash to catch it
-				if (substr($url, 0, strlen("/(.*)")) === "/(.*)") {
-					$url = "/\\" . $url;
-				}
 			}
 		} else {
 			$url = str_replace("//", "/", $url);
@@ -95,7 +89,6 @@ class Route {
 
 	private static $get = [];
 	private static $post = [];
-	private static $stop = false;
 
 	static function handle($url, $method) {
 
@@ -114,8 +107,6 @@ class Route {
 
 			// Loop through routes
 			for ($i = 0; $i < count(Route::$get); $i++) {
-				if (Route::$stop)
-					break;
 
 				// Save route for later
 				$route = Route::$get[$i];
@@ -180,8 +171,6 @@ class Route {
 
 			// Loop through routes
 			for ($i = 0; $i < count(Route::$post); $i++) {
-				if (Route::$stop)
-					break;
 
 				// Save route for later
 				$route = Route::$post[$i];
@@ -260,10 +249,6 @@ class Route {
 
 	static function post($url, $cb, $vars=TRUE) {
 		Route::$post[] = new RouteData($url, $cb, $vars);
-	}
-
-	static function stop() {
-		Route::$stop = true;
 	}
 
 	static function spost($url, $cb, $vars=TRUE) {

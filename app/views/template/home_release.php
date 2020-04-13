@@ -24,7 +24,7 @@
 	<div class="modal" id="share-modal-<?= $i ?>">
 		<div class="modal-content center">
 			<h1>Share <u><?= $R->title ?></u></h1>
-			<input type="text" id="share-link-<?= $i ?>" value="https://jstlstn.me/<?= $R->link ?>" style="width: 50%;" />
+			<input type="text" id="share-link-<?= $i ?>" value="https://justlisten.me/<?= $username ?>/<?= $R->url ?>" style="width: 50%;" />
 		</div>
 	</div>
 </div>

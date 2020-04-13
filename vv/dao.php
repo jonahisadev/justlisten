@@ -66,9 +66,8 @@ abstract class DAO {
 	// Define model structure
 	public abstract function model();
 
-	// Create the structure in DB
-	public function create($name) {
-		$sql = "CREATE TABLE $name (\n";
+	public function create_sql($name) {
+		$sql = "CREATE TABLE `$name` (\n";
 
 		for ($i = 0; $i < count($this->_items); $i++) {
 			$item = $this->_items[$i];
@@ -133,6 +132,12 @@ abstract class DAO {
 		}
 
 		$sql .= ")";
+		return $sql;
+	}
+
+	// Create the structure in DB
+	public function create($name) {
+		$sql = $this->create_sql($name);
 
 		// Read config and create table
 		$conf = parse_ini_file(__DIR__ . "/../config.ini", true)["database"];

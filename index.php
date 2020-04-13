@@ -1,5 +1,7 @@
 <?php
 
+	error_reporting(E_ERROR);
+
 	// Prepare URL
 	function prepare_url($str) {
 		$x = str_replace(INDEX, "", explode("?", $str)[0]);

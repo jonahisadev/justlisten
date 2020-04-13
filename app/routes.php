@@ -131,14 +131,19 @@
 			// AJAX art
 			if (isset($_POST['ajax_art'])) {
 				$ajax_url = filter_var($_POST['ajax_art'], FILTER_SANITIZE_URL);
-				copy($ajax_url, $filename);
-				$art_check = Art::meetsRequirements($filename);
-				if (!empty($art_check)) {
-					// unlink($filename);
-					$error = $art_check;
+				if (!copy($ajax_url, $filename)) {
+					$errors = error_get_last();
+					$error = "Error: " . $errors["message"];
+				} else {
+					$art_check = Art::meetsRequirements($filename);
+					if (!empty($art_check)) {
+						$error = $art_check;
+						unlink($filename);
+					} else {
+						Art::uploadToS3($filename, $art);
+						unlink($filename);
+					}
 				}
-				Art::uploadToS3($filename, $art);
-				unlink($filename);
 			} 
 			
 			// Normal art
@@ -176,10 +181,10 @@
 		}
 
 		// Generate short link
-		$ls = Util::generateID(10);
-		if (Link::get($ls) != NULL) {
-			$ls = Util::generateID(10);
-		}
+		// $ls = Util::generateID(10);
+		// if (Link::get($ls) != NULL) {
+		// 	$ls = Util::generateID(10);
+		// }
 
 		// Create the release
 		$release = Rel::new([
@@ -190,7 +195,7 @@
 			"label" => $label,
 			"release_type" => $type,
 			"privacy" => $privacy,
-			"link" => $ls
+			// "link" => $ls
 		]);
 		$release->setStores($stores);
 		$release->save();
@@ -200,11 +205,11 @@
 		$user->save();
 
 		// Save short link
-		$link = Link::new([
-			"id" => $ls,
-			"url" => $user->username . "/" . $url
-		]);
-		$link->save();
+		// $link = Link::new([
+		// 	"id" => $ls,
+		// 	"url" => $user->username . "/" . $url
+		// ]);
+		// $link->save();
 
 		// If there's an AJAX call, return success
 		if (isset($_POST['ajax'])) {
@@ -380,8 +385,7 @@
 		Session::addFlash("signup");
 
 		// Check for empty fields
-		if (empty($username) || empty($name) || empty($email) || empty($pass1) || empty($pass2) ||
-				empty($beta_code)) {
+		if (empty($username) || empty($name) || empty($email) || empty($pass1) || empty($pass2) /*|| empty($beta_code)*/) {
 			Session::addFlash("empty");
 			$error = TRUE;
 		}
@@ -412,13 +416,13 @@
 		}
 
 		// Check for a beta code
-		if (Mode::isProduction()) {
-			$beta = Beta::get($beta_code);
-			if ($beta->code == NULL) {
-				Session::addFlash("nobeta");
-				$error = TRUE;
-			}
-		}
+		// if (Mode::isProduction()) {
+		// 	$beta = Beta::get($beta_code);
+		// 	if ($beta->code == NULL) {
+		// 		Session::addFlash("nobeta");
+		// 		$error = TRUE;
+		// 	}
+		// }
 
 		if ($error) {
 			Session::addFlash("s_username", $username);
@@ -429,7 +433,11 @@
 		}
 
 		// Hash password
-		$password = password_hash($pass1, PASSWORD_ARGON2I);
+		if (Mode::isProduction()) {
+			$password = password_hash($pass1, PASSWORD_ARGON2I);
+		} else {
+			$password = password_hash($pass1, PASSWORD_DEFAULT);
+		}
 
 		// Create verification code
 		if (Mode::isProduction()) {
@@ -444,7 +452,7 @@
 			'name' => $name,
 			'email' => $email,
 			'password' => $password,
-			'verify' => $verify
+			'verify' => "0"
 		]);
 		
 		// Send verification email
@@ -455,9 +463,9 @@
 		// Other stuff
 		Session::remove("flsh_signup");
 		Session::addFlash("verify");
-		if (Mode::isProduction()) {
-			$beta->delete();
-		}
+		// if (Mode::isProduction()) {
+		// 	$beta->delete();
+		// }
 		View::redirect("/dashboard");
 	});
 
