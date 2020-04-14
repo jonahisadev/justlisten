@@ -37,11 +37,14 @@ include 'include/rest.php';
 
         <div class="release-container">
             <img src="<?= CDN . $R->art ?>.jpg">
+            <div class="remember-container">
+                <input type="checkbox" name="remember" id="remember"><span style="font-size: 14pt;">Remember My Store</span>
+            </div>
             <?php
             $stores = $R->getStores();
             for ($i = 0; $i < count($R->getStores()); $i++) {
                 $S = $stores[$i];
-                ?>
+            ?>
                 <div class="store-container">
                     <div class="store-container-name">
                         <h2><?= Rel::store($S[0]) ?></h2>
@@ -53,7 +56,7 @@ include 'include/rest.php';
                     </a>
                 </div>
             <?php
-        } ?>
+            } ?>
         </div>
         <h4>Ⓟ <?= date("Y", $R->date) ?> <?= $R->label ?></h4>
     </div>

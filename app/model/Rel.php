@@ -19,7 +19,6 @@ class Rel extends DAO {
 		$this->binary("stores");
 		$this->number("privacy");
 		$this->binary("stats");
-		$this->string("link", 10);
 	}
 
 	static function type($id) {

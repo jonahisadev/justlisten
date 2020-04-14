@@ -75,12 +75,20 @@ body {
 }
 
 .release-container img {
-		width: 100%;
-		height: auto;
-		border: 7px solid white;
-		box-sizing: border-box;
-		margin-bottom: 0px;
-	}
+	width: 100%;
+	height: auto;
+	border: 7px solid white;
+	box-sizing: border-box;
+	margin-bottom: 0px;
+}
+
+.remember-container {
+	width: 100%;
+	background-color: #FFF;
+	border: 2px solid #AAA;
+	box-sizing: border-box;
+	text-align: center;
+}
 
 .store-container {
 	background-color: #FFF;

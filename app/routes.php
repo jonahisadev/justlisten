@@ -4,7 +4,6 @@
 	include 'model/Rel.php';
 	include 'model/Beta.php';
 	include 'model/Art.php';
-	include 'model/Link.php';
 	include 'model/Util.php';
 	include 'model/Email.php';
 
@@ -180,12 +179,6 @@
 			View::redirect("/dashboard/new");
 		}
 
-		// Generate short link
-		// $ls = Util::generateID(10);
-		// if (Link::get($ls) != NULL) {
-		// 	$ls = Util::generateID(10);
-		// }
-
 		// Create the release
 		$release = Rel::new([
 			"art" => $art,
@@ -194,8 +187,7 @@
 			"date" => strtotime($date),
 			"label" => $label,
 			"release_type" => $type,
-			"privacy" => $privacy,
-			// "link" => $ls
+			"privacy" => $privacy
 		]);
 		$release->setStores($stores);
 		$release->save();
@@ -203,13 +195,6 @@
 		// Add release to user's release list
 		$user->addRelease($release->id);
 		$user->save();
-
-		// Save short link
-		// $link = Link::new([
-		// 	"id" => $ls,
-		// 	"url" => $user->username . "/" . $url
-		// ]);
-		// $link->save();
 
 		// If there's an AJAX call, return success
 		if (isset($_POST['ajax'])) {
@@ -307,11 +292,6 @@
 			Session::addFlash("stores", $stores);
 			View::redirect("/a/" . $username . "/" . $url . "/edit");
 		}
-
-		// Update short link redirect URL
-		$link = Link::get($R->link);
-		$link->url = $user->username . "/" . $url;
-		$link->save();
 
 		// Save data
 		$R->title = $title;
